@@ -1,0 +1,4771 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "q5wzgby7yxh80"
+  },
+  "info": {
+    "title": "Smartdor MVP API",
+    "version": "1.0",
+    "summary": "Documentation for the Smartdor MVP REST API."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "paths": {
+    "/sensors/{sensorId}/downlink": {
+      "get": {
+        "summary": "Downlink Tasks",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DownlinkTask",
+                    "x-stoplight": {
+                      "id": "wdfcuxzes046m"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-api-sensors-sensorId-downlink",
+        "x-stoplight": {
+          "id": "0e8hnlidg2xb3"
+        },
+        "description": "List the in-progress tasks (i.e. tasks with progress `<100`), and any tasks completed in the last week.",
+        "parameters": []
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "sensorId",
+          "in": "path",
+          "required": true,
+          "description": "The internal ID of the sensor to fetch a list of task for."
+        }
+      ],
+      "servers": [],
+      "post": {
+        "summary": "Create Downlink Task",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "Shared Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownlinkTask"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "operationId": "post-api-sensors-sensorId-downlink",
+        "x-stoplight": {
+          "id": "gjbnshje0fqwh"
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/DownlinkTaskCreate"
+        }
+      }
+    },
+    "/sensors/{sensorId}/downlink/format": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "sensorId",
+          "in": "path",
+          "required": true,
+          "description": "The internal ID of the sensor to fetch a list of task for."
+        }
+      ],
+      "servers": [],
+      "post": {
+        "summary": "Format Downlink Task",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownlinkTask"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        },
+        "operationId": "post-api-sensors-sensorId-downlink-format",
+        "x-stoplight": {
+          "id": "x1ruyyn3ct6t5"
+        },
+        "description": "This is mainly used for development/testing, and given a downlink task input, it returns the formatted payload that would be sent to TTN if this was the downlink API.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/DownlinkTaskCreate"
+        }
+      }
+    },
+    "/sensors/{sensorId}/downlink/{taskId}": {
+      "get": {
+        "summary": "Downlink Task",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownlinkTask"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-api-sensors-sensorId-downlink-taskId",
+        "description": "Fetch a specific task for a sensor.",
+        "parameters": [],
+        "x-stoplight": {
+          "id": "iwoj8hgn3bbwi"
+        }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": "a96ca984-e88a-4a64-b6e8-f1ba3e33a006"
+          },
+          "name": "sensorId",
+          "in": "path",
+          "required": true,
+          "description": "The internal ID of the sensor to fetch a task for."
+        },
+        {
+          "schema": {
+            "type": "integer",
+            "example": 11
+          },
+          "name": "taskId",
+          "in": "path",
+          "required": true,
+          "description": "The internal ID of the task to fetch,"
+        }
+      ],
+      "servers": []
+    },
+    "/doors/{doorId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": "doorId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Door",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Door"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "i3rzh792e41mg"
+                      },
+                      "properties": {
+                        "floor": {
+                          "x-stoplight": {
+                            "id": "vdxobypyhdsif"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Floor",
+                              "x-stoplight": {
+                                "id": "0rko9cizu51ci"
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "x-stoplight": {
+                                "id": "2q5t1i9w08q2a"
+                              },
+                              "properties": {
+                                "doors": {
+                                  "x-stoplight": {
+                                    "id": "0xh5pj1hg37am"
+                                  },
+                                  "type": "array",
+                                  "items": {
+                                    "x-stoplight": {
+                                      "id": "sdgs5oha9b2y1"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Door",
+                                        "x-stoplight": {
+                                          "id": "qxe6ubki8e2bn"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                "site": {
+                                  "x-stoplight": {
+                                    "id": "6bje9u965qr9p"
+                                  },
+                                  "allOf": [
+                                    {
+                                      "$ref": "#/components/schemas/Site",
+                                      "x-stoplight": {
+                                        "id": "97ik84lsmzjhc"
+                                      }
+                                    },
+                                    {
+                                      "type": "object",
+                                      "x-stoplight": {
+                                        "id": "2sl25b53q21bk"
+                                      },
+                                      "properties": {
+                                        "organization": {
+                                          "$ref": "#/components/schemas/Organization",
+                                          "x-stoplight": {
+                                            "id": "dztqwy2n06d83"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "doors",
+                                "site"
+                              ]
+                            }
+                          ]
+                        },
+                        "sensors": {
+                          "x-stoplight": {
+                            "id": "y4wwqr48mhmkd"
+                          },
+                          "type": "array",
+                          "items": {
+                            "x-stoplight": {
+                              "id": "lp5hzdacqyk43"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Sensor",
+                                "x-stoplight": {
+                                  "id": "6uwigsrl0itfo"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "notifications": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "p35hg8s5us3lh"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "xhc5efb9r7dzq"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Notification",
+                                "x-stoplight": {
+                                  "id": "tqowfs9hlp63o"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "floor",
+                        "sensors",
+                        "notifications"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-doors-doorId",
+        "x-stoplight": {
+          "id": "oen6evcxmfl81"
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-doors-doorId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update door",
+        "operationId": "put-doors-doorId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Door"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/DoorUpdate"
+        }
+      }
+    },
+    "/doors": {
+      "parameters": [],
+      "get": {
+        "summary": "Fetch Doors",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BasicPaginationResponse",
+                      "x-stoplight": {
+                        "id": "ccw6gt1t6c1y2"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "z80bnesqwst0r"
+                      },
+                      "properties": {
+                        "rows": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "ouoznx4vmogub"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "xjrmtjr23y612"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Door"
+                              },
+                              {
+                                "type": "object",
+                                "x-stoplight": {
+                                  "id": "11cx0c683d37e"
+                                },
+                                "properties": {
+                                  "floor": {
+                                    "x-stoplight": {
+                                      "id": "nmi7snlr5vxqd"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Floor",
+                                        "x-stoplight": {
+                                          "id": "vf07jhkj0hrz0"
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "x-stoplight": {
+                                          "id": "9ltqyx3eqj6hl"
+                                        },
+                                        "properties": {
+                                          "site": {
+                                            "x-stoplight": {
+                                              "id": "aluory789poe6"
+                                            },
+                                            "allOf": [
+                                              {
+                                                "$ref": "#/components/schemas/Site",
+                                                "x-stoplight": {
+                                                  "id": "hal0jyipm3fng"
+                                                }
+                                              },
+                                              {
+                                                "type": "object",
+                                                "x-stoplight": {
+                                                  "id": "sophfjg4huk0r"
+                                                },
+                                                "properties": {
+                                                  "organization": {
+                                                    "x-stoplight": {
+                                                      "id": "8obzw5qfm1z00"
+                                                    },
+                                                    "allOf": [
+                                                      {
+                                                        "$ref": "#/components/schemas/Organization",
+                                                        "x-stoplight": {
+                                                          "id": "ncdhz0zxcb4wj"
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                "required": [
+                                                  "organization"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "site"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "floor"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "rows"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-doors",
+        "x-stoplight": {
+          "id": "rz9ske5cgotf0"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "searchQuery",
+            "description": "Search for doors matching this query."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "floor",
+            "description": "Filter to doors with this floor ID."
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create Door",
+        "operationId": "post-doors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Door"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Door"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/DoorCreate"
+        }
+      }
+    },
+    "/sensors/{sensorId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": "sensorId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Sensor",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Sensor",
+                      "x-stoplight": {
+                        "id": "pbqc87mrqcyts"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "aenr8qzr5ce9e"
+                      },
+                      "required": [
+                        "door"
+                      ],
+                      "properties": {
+                        "door": {
+                          "x-stoplight": {
+                            "id": "hef532nah86e9"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Door",
+                              "x-stoplight": {
+                                "id": "8yyot6lz487nm"
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "x-stoplight": {
+                                "id": "tdx65nc69fjki"
+                              },
+                              "required": [
+                                "floor"
+                              ],
+                              "properties": {
+                                "floor": {
+                                  "x-stoplight": {
+                                    "id": "wfyrms5dziyzk"
+                                  },
+                                  "allOf": [
+                                    {
+                                      "$ref": "#/components/schemas/Floor",
+                                      "x-stoplight": {
+                                        "id": "tdg31w7zafsi6"
+                                      }
+                                    },
+                                    {
+                                      "type": "object",
+                                      "x-stoplight": {
+                                        "id": "fflcmyu8lpolo"
+                                      },
+                                      "required": [
+                                        "site"
+                                      ],
+                                      "properties": {
+                                        "site": {
+                                          "x-stoplight": {
+                                            "id": "wqrujn939eg1v"
+                                          },
+                                          "allOf": [
+                                            {
+                                              "$ref": "#/components/schemas/Site",
+                                              "x-stoplight": {
+                                                "id": "xmn2jpaj67fet"
+                                              }
+                                            },
+                                            {
+                                              "type": "object",
+                                              "x-stoplight": {
+                                                "id": "t16jr1bre3ua9"
+                                              },
+                                              "required": [
+                                                "organization"
+                                              ],
+                                              "properties": {
+                                                "organization": {
+                                                  "$ref": "#/components/schemas/Organization",
+                                                  "x-stoplight": {
+                                                    "id": "pexofq8xaij4p"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-api-sensors-sensorId",
+        "x-stoplight": {
+          "id": "ettw1jc7za6ne"
+        },
+        "description": "Get a single sensor by its internal ID."
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "Get Notifications",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BasicPaginationResponse"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "2q4tfgr91egxh"
+                      },
+                      "properties": {
+                        "rows": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "s1cl3kvtmh5oi"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "qf1heztr3n5v1"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Notification",
+                                "x-stoplight": {
+                                  "id": "j8ep82srta35b"
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "x-stoplight": {
+                                  "id": "s0mtz5u7maz2i"
+                                },
+                                "properties": {
+                                  "door": {
+                                    "x-stoplight": {
+                                      "id": "xf2nkfwas1f5y"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Door",
+                                        "x-stoplight": {
+                                          "id": "y4s06ag6zzqg1"
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "x-stoplight": {
+                                          "id": "12q56cn29tt9o"
+                                        },
+                                        "properties": {
+                                          "floor": {
+                                            "x-stoplight": {
+                                              "id": "dky557o5yqmuy"
+                                            },
+                                            "allOf": [
+                                              {
+                                                "$ref": "#/components/schemas/Floor",
+                                                "x-stoplight": {
+                                                  "id": "iryau54t6601m"
+                                                }
+                                              },
+                                              {
+                                                "type": "object",
+                                                "x-stoplight": {
+                                                  "id": "zv3nsmzg33ktc"
+                                                },
+                                                "properties": {
+                                                  "site": {
+                                                    "x-stoplight": {
+                                                      "id": "mxjaoniximu43"
+                                                    },
+                                                    "allOf": [
+                                                      {
+                                                        "$ref": "#/components/schemas/Site",
+                                                        "x-stoplight": {
+                                                          "id": "jfn6blawb5425"
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "door"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "rows"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-notifications",
+        "description": "An endpoint that returns all notifications (scoped to an organisation if not an admin), with optional filters to scope down to different resources in the hierarchy (i.e. by site, floor, and door).",
+        "parameters": []
+      }
+    },
+    "/floors": {
+      "get": {
+        "summary": "Get Floors",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {}
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-floors",
+        "description": "Fetch a list of all floors, with optional filters to scope to parent resources."
+      }
+    },
+    "/sites": {
+      "get": {
+        "summary": "Fetch Sites",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BasicPaginationResponse"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "kj0r71xvqex3m"
+                      },
+                      "properties": {
+                        "rows": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "t3nxbv5zucmew"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "lrd25sv3vz31b"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Site",
+                                "x-stoplight": {
+                                  "id": "a9sypcechqt1f"
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "x-stoplight": {
+                                  "id": "qmx8nlgmc1ntd"
+                                },
+                                "properties": {
+                                  "organization": {
+                                    "x-stoplight": {
+                                      "id": "4wmwr6hvwli9x"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Organization",
+                                        "x-stoplight": {
+                                          "id": "3kcx1xv0b9iun"
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "counts": {
+                                    "type": "object",
+                                    "x-stoplight": {
+                                      "id": "kmj50fnz5ec4l"
+                                    },
+                                    "properties": {
+                                      "floors": {
+                                        "type": "number",
+                                        "x-stoplight": {
+                                          "id": "rwet28kz2gvux"
+                                        }
+                                      },
+                                      "doors": {
+                                        "type": "number",
+                                        "x-stoplight": {
+                                          "id": "woryakigfu83p"
+                                        }
+                                      },
+                                      "sensors": {
+                                        "type": "number",
+                                        "x-stoplight": {
+                                          "id": "p3akxcpua99jr"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-sites",
+        "description": "Fetch a list of all sites for an organisation."
+      }
+    },
+    "/organizations": {
+      "get": {
+        "summary": "Fetch Organizations",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BasicPaginationResponse"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "bplsxb3dlrxx6"
+                      },
+                      "properties": {
+                        "rows": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "zbo9bsgawmg3n"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "69enea12z3adk"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Organization",
+                                "x-stoplight": {
+                                  "id": "ae39a7c928ed8"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "rows"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-organizations",
+        "description": "Fetch a list of all organizations."
+      },
+      "parameters": []
+    },
+    "/sites/{siteId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": "siteId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Fetch Site",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Site"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "7nhi7j7qor8hy"
+                      },
+                      "properties": {
+                        "organization": {
+                          "x-stoplight": {
+                            "id": "0juxe9tx2kam2"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Organization",
+                              "x-stoplight": {
+                                "id": "tdns9y3kngl7b"
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "x-stoplight": {
+                                "id": "g8xpq6rfyzu6c"
+                              },
+                              "properties": {
+                                "sites": {
+                                  "type": "array",
+                                  "x-stoplight": {
+                                    "id": "0eh3ir0fb1jns"
+                                  },
+                                  "items": {
+                                    "x-stoplight": {
+                                      "id": "xaw1uidctc0ru"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Site",
+                                        "x-stoplight": {
+                                          "id": "rmsqawxj1btup"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "sites"
+                              ]
+                            }
+                          ]
+                        },
+                        "floors": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "szoxfje5dhes3"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "yl3q0sorpxwga"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Floor",
+                                "x-stoplight": {
+                                  "id": "efumtrroytrbl"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "counts": {
+                          "type": "object",
+                          "x-stoplight": {
+                            "id": "rtve9s2hv8ltf"
+                          },
+                          "required": [
+                            "floors",
+                            "doors",
+                            "sensors"
+                          ],
+                          "properties": {
+                            "floors": {
+                              "type": "integer",
+                              "x-stoplight": {
+                                "id": "1gcmrycrduvj2"
+                              },
+                              "description": "Total number of floors within this site."
+                            },
+                            "doors": {
+                              "type": "integer",
+                              "x-stoplight": {
+                                "id": "14lnbymbugiug"
+                              },
+                              "description": "Total number of doors within this site."
+                            },
+                            "sensors": {
+                              "type": "integer",
+                              "x-stoplight": {
+                                "id": "0ceracsbe7sdd"
+                              },
+                              "description": "Total number of sensors within this site."
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "organization",
+                        "floors",
+                        "counts"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-sites-siteId",
+        "description": "Fetch a single site by its ID."
+      }
+    },
+    "/floors/{floorId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "floorId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Fetch Floor",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Floor"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "yu8ei9ctx3zqj"
+                      },
+                      "properties": {
+                        "site": {
+                          "x-stoplight": {
+                            "id": "2fpvr1blfgivj"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Site",
+                              "x-stoplight": {
+                                "id": "j7ul97an6cd5t"
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "x-stoplight": {
+                                "id": "nf9ke2svcf48w"
+                              },
+                              "properties": {
+                                "organization": {
+                                  "x-stoplight": {
+                                    "id": "jm8k7rwd95aij"
+                                  },
+                                  "allOf": [
+                                    {
+                                      "$ref": "#/components/schemas/Organization",
+                                      "x-stoplight": {
+                                        "id": "nyor4sgxuo6jh"
+                                      }
+                                    },
+                                    {
+                                      "type": "object",
+                                      "x-stoplight": {
+                                        "id": "au2ecfaj5owpl"
+                                      },
+                                      "properties": {},
+                                      "required": []
+                                    }
+                                  ]
+                                },
+                                "floors": {
+                                  "type": "array",
+                                  "x-stoplight": {
+                                    "id": "j7izr2yiej6oq"
+                                  },
+                                  "items": {
+                                    "x-stoplight": {
+                                      "id": "0o5xf9nqyfok3"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Floor",
+                                        "x-stoplight": {
+                                          "id": "182q7ba03agqw"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "floors"
+                              ]
+                            }
+                          ]
+                        },
+                        "counts": {
+                          "type": "object",
+                          "x-stoplight": {
+                            "id": "dilk7z90hb2qu"
+                          },
+                          "required": [
+                            "sensors",
+                            "doors"
+                          ],
+                          "properties": {
+                            "sensors": {
+                              "type": "integer",
+                              "x-stoplight": {
+                                "id": "bdk5nm7fcn6p7"
+                              },
+                              "description": "Total number of sensors within this floor."
+                            },
+                            "doors": {
+                              "type": "integer",
+                              "x-stoplight": {
+                                "id": "321oiq7jwvlbo"
+                              },
+                              "description": "Total number of doors within this floor."
+                            }
+                          }
+                        },
+                        "doors": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "elxzrylavue9d"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "w4gdeytrr9kgl"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Door",
+                                "x-stoplight": {
+                                  "id": "hfvfyq4q9hz9u"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "site",
+                        "counts",
+                        "doors"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-floors-floorId",
+        "description": "Fetch a single floor by its ID."
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Fetch Users",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BasicPaginationResponse"
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "fxg7s67h9fnms"
+                      },
+                      "properties": {
+                        "rows": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "2n26bjucsmmcp"
+                          },
+                          "items": {
+                            "x-stoplight": {
+                              "id": "3hpybpcjs2y3w"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/User",
+                                "x-stoplight": {
+                                  "id": "2yoledmf0l7kw"
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "x-stoplight": {
+                                  "id": "2psfvmh503xsf"
+                                },
+                                "properties": {
+                                  "organization": {
+                                    "x-stoplight": {
+                                      "id": "79w101haa9gup"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "$ref": "#/components/schemas/Organization",
+                                        "x-stoplight": {
+                                          "id": "4i8n3v3vk6be6"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "rows"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-users",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UsersGetSortBy"
+          },
+          {
+            "$ref": "#/components/parameters/UserGetSearchQuery"
+          }
+        ]
+      }
+    },
+    "/tenants": {
+      "get": {
+        "summary": "Fetch All Tenants",
+        "tags": [],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TenantsQueryResponse"
+          }
+        },
+        "operationId": "get-tenants",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UsersGetSortBy"
+          },
+          {
+            "$ref": "#/components/parameters/UserGetSearchQuery"
+          }
+        ],
+        "description": "Query all tenants"
+      },
+      "parameters": [],
+      "post": {
+        "summary": "Create a tenant",
+        "operationId": "post-tenants",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TenantCreate"
+        }
+      }
+    },
+    "/tenants/{tenantId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "tenantId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a tenant",
+        "operationId": "get-tenants-tenantId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "doors": {
+                          "type": "array",
+                          "x-stoplight": {
+                            "id": "3kzlq6z5wtygv"
+                          },
+                          "items": {
+                            "$ref": "#/components/schemas/Door",
+                            "x-stoplight": {
+                              "id": "cvm3d249qhojt"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Tenant",
+                      "x-stoplight": {
+                        "id": "hbltewhoh9npv"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "description": "Get a tenant by their ID",
+        "parameters": []
+      },
+      "post": {
+        "summary": "Update a tenant",
+        "operationId": "post-tenants-tenantId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TenantUpdate"
+        }
+      },
+      "delete": {
+        "summary": "Delete a tenant",
+        "operationId": "delete-tenants-tenantId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/tenantsDoors": {
+      "parameters": [],
+      "post": {
+        "summary": "Assign a door to a tenant",
+        "operationId": "post-tenants",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantsDoors"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tenantId": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "zv9l1h89b33j1"
+                    },
+                    "format": "uuid"
+                  },
+                  "doorId": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "0mhc47fdg02gj"
+                    },
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "tenantId",
+                  "doorId"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Unassign a door from a tenant",
+        "operationId": "delete-tenantsDoors",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tenantId": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "tdl19v037oryb"
+                    },
+                    "format": "uuid"
+                  },
+                  "doorId": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "cecr8i9swttb2"
+                    },
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "tenantId",
+                  "doorId"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenantsDoors/{tenantId}}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "tenantId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get all doors assigned to a tenant",
+        "operationId": "get-tenantsDoors-tenantId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Door",
+                    "x-stoplight": {
+                      "id": "w50malgfx33wu"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "summary": "Fetch current user's profile",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-profile"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DownlinkTask": {
+        "title": "Downlink Task",
+        "x-stoplight": {
+          "id": "ugf7wagt97l9a"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "kqb8apc10cyg4"
+            },
+            "description": "Unique internal ID for this task."
+          },
+          "createdAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "pnerrgbzs7oo1"
+            },
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mp64weugfgnah"
+            },
+            "format": "date-time"
+          },
+          "sensorId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "yj91d40ukmor9"
+            },
+            "description": "The internal ID of the related sensor for this task.",
+            "format": "uuid",
+            "example": "a96ca984-e88a-4a64-b6e8-f1ba3e33a006"
+          },
+          "deviceId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ao04mtiynyrzj"
+            },
+            "description": "The TTN device ID (or internal `sensorCode`) for the related sensor.",
+            "example": "eui-1e37350101010107"
+          },
+          "status": {
+            "x-stoplight": {
+              "id": "rfttvgu7wtf6e"
+            },
+            "description": "Current status of this task - reflects the TTN Gateway status.",
+            "enum": [
+              "pending",
+              "queued",
+              "sent",
+              "failed",
+              "ack",
+              "nack"
+            ],
+            "default": "pending",
+            "readOnly": true
+          },
+          "stage": {
+            "x-stoplight": {
+              "id": "gn8x5yve9gujs"
+            },
+            "description": "The user-friendly name for the tasks current stage.",
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Downlink Queued"
+          },
+          "stageDescription": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "sunckbolvsbzx"
+            },
+            "description": "A user-friendly description for the current task stage - can be shown in the UI.",
+            "example": "The downlink command has been queued, ready to be sent to the device."
+          },
+          "progress": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "o0ofh4qw0ieb3"
+            },
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0,
+            "example": 40,
+            "description": "The current progress of this task, as a percentage (0-100%). \r\nWill be `100` when the task has completed or failed, and anything below `100` indicates the task is in progress."
+          },
+          "errorMessage": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "4z36qijnpr58r"
+            },
+            "description": "If this task failed, this field may contain a user-facing reason why the task failed, and any next steps."
+          },
+          "payload": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "6fynnxm451jr8"
+            },
+            "description": "The formatted payload that was sent to TTN (likely a base64 string).",
+            "example": "000005D6F900",
+            "readOnly": true
+          },
+          "input": {
+            "$ref": "#/components/schemas/SensorConfigureInput",
+            "x-stoplight": {
+              "id": "nishhjm7o49hn"
+            },
+            "description": "A JSON field that contains the original user-specified input data for this task."
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "sensorId",
+          "deviceId",
+          "status",
+          "stage",
+          "stageDescription",
+          "progress",
+          "errorMessage",
+          "payload",
+          "input"
+        ]
+      },
+      "SensorConfigureInput": {
+        "title": "Sensor Configure Input",
+        "x-stoplight": {
+          "id": "69mxyptd17ifw"
+        },
+        "description": "The different inputs a user can send to configure a sensor (via the downlink API).",
+        "examples": [
+          {
+            "key": "accConfig",
+            "value": {
+              "tamperEnabled": true,
+              "slamXEnabled": true,
+              "slamYEnabled": true,
+              "slamZEnabled": true,
+              "xAxisThreshold": 22,
+              "yzAxisThreshold": 25,
+              "dataRateHz": 104,
+              "gRange": 2
+            }
+          },
+          {
+            "key": "reportingInterval",
+            "input": {
+              "value": 60
+            }
+          },
+          {
+            "key": "measurementInterval",
+            "input": {
+              "value": 30
+            }
+          },
+          {
+            "key": "resetAck"
+          }
+        ],
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SensorConfigureReportingInterval",
+            "x-stoplight": {
+              "id": "klxj17urpl50w"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/SensorConfigureMeasurementInterval",
+            "x-stoplight": {
+              "id": "jgs5wsrsoxe69"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/SensorConfigureDoorOpenTimeout",
+            "x-stoplight": {
+              "id": "oxk0yvm522u25"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/SensorConfigureResetAck",
+            "x-stoplight": {
+              "id": "xxnw5l940m753"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/SensorConfigureAccConfig",
+            "x-stoplight": {
+              "id": "upcwb2w5n4psl"
+            }
+          }
+        ]
+      },
+      "User": {
+        "title": "User",
+        "x-stoplight": {
+          "id": "xawxzcji9hdhu"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "firstName",
+          "lastName",
+          "name",
+          "roleId",
+          "role",
+          "roleName",
+          "disabled",
+          "receiveEmailNotifications",
+          "avatar",
+          "knock"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "r3f01v2ejmuri"
+            },
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "o7qeojnpn83ob"
+            },
+            "format": "email"
+          },
+          "firstName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "ionaju9em05li"
+            }
+          },
+          "lastName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "xx4r4tjktwl5c"
+            }
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "mjmzc46g7tl6d"
+            },
+            "description": "The user's first and last names concatenated."
+          },
+          "roleId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "193is4wzq4ak0"
+            },
+            "format": "uuid",
+            "description": "The internal ID of the user's role - shouldn't be used anymore.",
+            "deprecated": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role",
+            "x-stoplight": {
+              "id": "jzc5cwkfccu6x"
+            },
+            "description": "The user's role, as an enum member."
+          },
+          "roleName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7roc8uif58hk8"
+            },
+            "description": "The 'nice' role name, for showing in the UI."
+          },
+          "organizationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "npkxm477omxqy"
+            },
+            "description": "The user's organization ID. This may be `null` for admin users."
+          },
+          "disabled": {
+            "type": "boolean",
+            "x-stoplight": {
+              "id": "nakcp0p53c9q1"
+            },
+            "description": "Whether this user is disabled, and therefore blocked from logging in or accessing resources."
+          },
+          "receiveEmailNotifications": {
+            "type": "boolean",
+            "x-stoplight": {
+              "id": "uim0ps2fli8so"
+            },
+            "description": "Whether this user can receive email notifications - set at admin/org admin level."
+          },
+          "avatar": {
+            "$ref": "#/components/schemas/File",
+            "x-stoplight": {
+              "id": "gpv5yhjzjf3hp"
+            },
+            "description": "The user's profile image."
+          },
+          "knock": {
+            "required": [
+              "token"
+            ],
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Secure knock token"
+              }
+            }
+          }
+        }
+      },
+      "Role": {
+        "title": "Role",
+        "x-stoplight": {
+          "id": "i9otomx4l4wc3"
+        },
+        "description": "Represents the role enum values.",
+        "enum": [
+          "admin",
+          "org_admin",
+          "customer",
+          "installation_manager"
+        ],
+        "example": "admin",
+        "default": "customer",
+        "x-enum-varnames": [
+          "ADMIN",
+          "ORG_ADMIN",
+          "CUSTOMER",
+          "INSTALLER"
+        ]
+      },
+      "File": {
+        "title": "File",
+        "x-stoplight": {
+          "id": "ae3udi50v266c"
+        },
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "id",
+          "publicUrl"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ipv6u8utnw8rc"
+            },
+            "format": "uuid"
+          },
+          "publicUrl": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "re5co0ta4becv"
+            },
+            "format": "uri",
+            "description": "The URL to our proxy middleware - rather than just returning a signed URL (as it is async with GCS, and Sequlize doesn't support that), we return a URL to our API, with the image path as a query param. The API then async generates a computed URL, and redirects the browser to that URL.\r\n\r\nKinda silly, so something to fix at somepoint."
+          }
+        }
+      },
+      "SensorConfigureReportingInterval": {
+        "title": "Configure Reporting Interval",
+        "type": "object",
+        "x-stoplight": {
+          "id": "gt29yuukgrs6y"
+        },
+        "required": [
+          "key",
+          "input"
+        ],
+        "properties": {
+          "key": {
+            "x-stoplight": {
+              "id": "deywjyx77xg3m"
+            },
+            "enum": [
+              "reportingInterval"
+            ],
+            "description": "Regular Reporting Interval (in seconds)."
+          },
+          "input": {
+            "type": "object",
+            "x-stoplight": {
+              "id": "hikq1jxa5cxov"
+            },
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "integer",
+                "x-stoplight": {
+                  "id": "vxm3a9am534i9"
+                },
+                "minimum": 10,
+                "maximum": 86400,
+                "description": "Set how often the sensor transmits a report, in seconds."
+              }
+            }
+          }
+        },
+        "examples": [
+          {
+            "key": "reportingInterval",
+            "input": {
+              "value": 60
+            }
+          }
+        ]
+      },
+      "SensorConfigureMeasurementInterval": {
+        "title": "Configure Measurement Interval",
+        "type": "object",
+        "x-stoplight": {
+          "id": "812pkwh1sduad"
+        },
+        "required": [
+          "key",
+          "input"
+        ],
+        "properties": {
+          "key": {
+            "x-stoplight": {
+              "id": "xgg274nbdtt9t"
+            },
+            "enum": [
+              "measurementInterval"
+            ],
+            "description": "Measurement Interval (in seconds)."
+          },
+          "input": {
+            "type": "object",
+            "x-stoplight": {
+              "id": "60g7j0vu90o13"
+            },
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "integer",
+                "x-stoplight": {
+                  "id": "pxhwsnem1a0pr"
+                },
+                "minimum": 0,
+                "maximum": 65535,
+                "description": "Set how often a measurement is taken, in seconds."
+              }
+            }
+          }
+        },
+        "examples": [
+          {
+            "key": "measurementInterval",
+            "input": {
+              "value": 30
+            }
+          }
+        ]
+      },
+      "SensorConfigureDoorOpenTimeout": {
+        "title": "Configure Door Open Timeout",
+        "type": "object",
+        "x-stoplight": {
+          "id": "wrpxf89vxge0d"
+        },
+        "required": [
+          "key",
+          "input"
+        ],
+        "properties": {
+          "key": {
+            "x-stoplight": {
+              "id": "rw33cy7fjkj3a"
+            },
+            "enum": [
+              "openTimeout"
+            ],
+            "description": "Door Open Timeout for Alert message (in minutes)."
+          },
+          "input": {
+            "type": "object",
+            "x-stoplight": {
+              "id": "eogdbxz5hncpl"
+            },
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "integer",
+                "x-stoplight": {
+                  "id": "84ppn7fh56t5h"
+                },
+                "minimum": 1,
+                "maximum": 1440,
+                "description": "Set the timeout threshold for door open alerts, in minutes."
+              }
+            }
+          }
+        },
+        "examples": [
+          {
+            "key": "openTimeout",
+            "input": {
+              "value": 45
+            }
+          }
+        ]
+      },
+      "SensorConfigureResetAck": {
+        "title": "Configure Reset Acknowledgement",
+        "type": "object",
+        "x-stoplight": {
+          "id": "qeyyrp208jg1m"
+        },
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "x-stoplight": {
+              "id": "f9fmjjpvec546"
+            },
+            "enum": [
+              "resetAck"
+            ],
+            "description": "Acknowledge Reset Flag."
+          }
+        },
+        "examples": [
+          {
+            "key": "resetAck"
+          }
+        ]
+      },
+      "SensorConfigureAccConfig": {
+        "title": "Configure Door Slam & Tamper Configuration",
+        "type": "object",
+        "x-stoplight": {
+          "id": "9i3fr831oic4z"
+        },
+        "required": [
+          "key",
+          "input"
+        ],
+        "properties": {
+          "key": {
+            "x-stoplight": {
+              "id": "zqnf1cyrxmwn9"
+            },
+            "enum": [
+              "accConfig"
+            ],
+            "description": "Door Slam and Tamper detection configuration parameters."
+          },
+          "input": {
+            "type": "object",
+            "x-stoplight": {
+              "id": "a85wq1u8e983u"
+            },
+            "required": [
+              "tamperEnabled",
+              "slamXEnabled",
+              "slamYEnabled",
+              "slamZEnabled",
+              "xAxisThreshold",
+              "yzAxisThreshold",
+              "dataRateHz",
+              "gRange"
+            ],
+            "properties": {
+              "tamperEnabled": {
+                "type": "boolean",
+                "x-stoplight": {
+                  "id": "4ith36yj2gai9"
+                },
+                "description": "Set whether the tamper detection is enabled.",
+                "default": true
+              },
+              "slamXEnabled": {
+                "type": "boolean",
+                "x-stoplight": {
+                  "id": "skesavrx39gbo"
+                },
+                "default": true,
+                "description": "Set whether the X-axis slam detection is enabled."
+              },
+              "slamYEnabled": {
+                "type": "boolean",
+                "x-stoplight": {
+                  "id": "qynvof5ivw2b0"
+                },
+                "default": true,
+                "description": "Set whether the Y-axis slam detection is enabled."
+              },
+              "slamZEnabled": {
+                "type": "boolean",
+                "x-stoplight": {
+                  "id": "j4y6vys31k39g"
+                },
+                "default": true,
+                "description": "Set whether the Z-axis slam detection is enabled."
+              },
+              "xAxisThreshold": {
+                "type": "integer",
+                "x-stoplight": {
+                  "id": "ewetkaorfqv8l"
+                },
+                "default": 22,
+                "example": 15,
+                "minimum": 0,
+                "maximum": 31,
+                "description": "Set the X-axis threshold for detection."
+              },
+              "yzAxisThreshold": {
+                "type": "integer",
+                "x-stoplight": {
+                  "id": "d5g9xqdpbhmwr"
+                },
+                "default": 25,
+                "example": 20,
+                "minimum": 0,
+                "maximum": 31,
+                "description": "Set the YZ-axis threshold for detection."
+              },
+              "dataRateHz": {
+                "x-stoplight": {
+                  "id": "6g5udz55g71v8"
+                },
+                "enum": [
+                  26,
+                  52,
+                  104,
+                  208
+                ],
+                "description": "The data rate (in `Hz`) to use. Must be one of the predefined values.",
+                "default": 104,
+                "example": 52
+              },
+              "gRange": {
+                "x-stoplight": {
+                  "id": "nug4rwskju7zj"
+                },
+                "enum": [
+                  2,
+                  4,
+                  8,
+                  16
+                ],
+                "default": 2,
+                "example": 8,
+                "description": "The G range (in `g`) to use. Must be one of the predefined values."
+              }
+            }
+          }
+        },
+        "examples": [
+          {
+            "key": "accConfig",
+            "input": {
+              "tamperEnabled": true,
+              "slamXEnabled": true,
+              "slamYEnabled": true,
+              "slamZEnabled": true,
+              "xAxisThreshold": 15,
+              "yzAxisThreshold": 20,
+              "dataRateHz": 52,
+              "gRange": 8
+            }
+          }
+        ]
+      },
+      "PaginationParams": {
+        "title": "Pagination Parameters",
+        "x-stoplight": {
+          "id": "messxsmbp7a0r"
+        },
+        "type": "object",
+        "description": "Generic pagination parameters shape, used across most API endpoints.",
+        "examples": [
+          {
+            "page": 4,
+            "limit": 10,
+            "sortOrder": "desc",
+            "sortBy": "string"
+          }
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "c49lmeexifym0"
+            },
+            "minimum": 1,
+            "example": 4
+          },
+          "limit": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "1blod0hzt7yld"
+            },
+            "minimum": 5,
+            "maximum": 50,
+            "example": 10
+          },
+          "sortOrder": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "bjq0lbjontf7o"
+            },
+            "example": "desc"
+          },
+          "sortBy": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "xg6lqgsgi83xf"
+            },
+            "description": "Differs between endpoints - see specific endpoint's reference for more information."
+          }
+        }
+      },
+      "FilterParams": {
+        "title": "Filter Parameters",
+        "x-stoplight": {
+          "id": "wd2n0d0ilmizj"
+        },
+        "type": "object",
+        "description": "Filter parameters for different endpoints, including notifications and events.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "xdbgp6rr4f0yy"
+            },
+            "example": "door"
+          },
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "x3a9w1ctzvag0"
+            },
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
+      },
+      "Sensor": {
+        "title": "Sensor",
+        "x-stoplight": {
+          "id": "oev89igsm5h7q"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "xbf31q85ov7vp"
+            }
+          },
+          "sensorCode": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "pj1ifltn3dqe0"
+            },
+            "description": "The unique sensor (device) code, from TTN."
+          },
+          "deviceCode": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "2rbd9acev60ys"
+            },
+            "description": "The sensor code, but without the `eui-` prefix."
+          },
+          "qrCode": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "b4oj33d8eon3s"
+            },
+            "description": "The QR code ID for this sensor."
+          },
+          "reportingFrequency": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "b1lo54ohbsiu1"
+            },
+            "description": "How often the sensor transmits data, in seconds."
+          },
+          "lastReading": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "4gm8oq5n2v9es"
+            },
+            "format": "date-time",
+            "description": "The timestamp of the last event that came in from this sensor."
+          },
+          "nextExpectedReading": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "yvh6szxl67ppu"
+            },
+            "format": "date-time",
+            "description": "Computed value for the next expected update time."
+          },
+          "location": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "gbukc356os5gn"
+            },
+            "description": "Where this sensor is located on the door - usually `top` or `side`.",
+            "default": "Top",
+            "example": "Side"
+          },
+          "statuses": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "he395df40p9wn"
+            },
+            "description": "An array of sensor statuses, formatted to have consistent names and values.",
+            "items": {
+              "x-stoplight": {
+                "id": "93c06lqweu4qy"
+              },
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "ct4mlrd8o6inm"
+                  },
+                  "description": "The original status field.",
+                  "example": "systemStatus"
+                },
+                "name": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "f8a82mzqlb8wk"
+                  },
+                  "description": "The formatted status name - likely converted from the database column name.",
+                  "example": "System Status"
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "boolean"
+                  ],
+                  "x-stoplight": {
+                    "id": "x97w8gcrh1rv9"
+                  },
+                  "description": "The status value - will likely be a boolean, or a string.",
+                  "example": "alert"
+                }
+              },
+              "required": [
+                "key",
+                "name",
+                "value"
+              ]
+            }
+          },
+          "offsets": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "g5r4xy8880iha"
+            },
+            "description": "A formatted array of sensor offsets.",
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "v54xn5mynjpwr"
+              }
+            }
+          },
+          "batteryStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "tw6br88lzkc53"
+            },
+            "description": "Indicates a battery issue with this sensor."
+          },
+          "slamStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "fgomjf5vl8uot"
+            }
+          },
+          "vandalismStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "yn9jjqlgi88a5"
+            }
+          },
+          "orientationStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "e8rzhzl203yhw"
+            }
+          },
+          "gapsStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "e94fexyhot4hn"
+            }
+          },
+          "timeoutStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ixwmbl2kvokud"
+            }
+          },
+          "signalStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "1fq7i7ue0koe6"
+            }
+          },
+          "resetStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "cfe8a474lcbub"
+            }
+          },
+          "transmissionMissedStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mriianchohf0m"
+            }
+          },
+          "events": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "492a8zftnm3zx"
+            },
+            "items": {
+              "$ref": "#/components/schemas/SensorEvent",
+              "x-stoplight": {
+                "id": "a4bohtte4bpaw"
+              }
+            }
+          },
+          "lastEvent": {
+            "x-stoplight": {
+              "id": "8jrilqewszdff"
+            },
+            "oneOf": [
+              {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "x-stoplight": {
+                  "id": "m95g691gwl0dx"
+                }
+              },
+              {
+                "$ref": "#/components/schemas/SensorEvent",
+                "x-stoplight": {
+                  "id": "8a1saoch7d5l4"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "sensorCode",
+          "deviceCode",
+          "qrCode",
+          "reportingFrequency",
+          "lastReading",
+          "nextExpectedReading",
+          "location",
+          "statuses",
+          "offsets",
+          "batteryStatus",
+          "slamStatus",
+          "vandalismStatus",
+          "orientationStatus",
+          "gapsStatus",
+          "timeoutStatus",
+          "signalStatus",
+          "resetStatus",
+          "transmissionMissedStatus",
+          "events",
+          "lastEvent"
+        ]
+      },
+      "Door": {
+        "title": "Door",
+        "x-stoplight": {
+          "id": "etw5psb40wsmw"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "g3kfsqdzgwp2t"
+            },
+            "format": "uuid"
+          },
+          "floorId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "aullmxuu0y8y7"
+            },
+            "format": "uuid",
+            "description": "If this door has been assigned to a floor, then this is the floor's ID."
+          },
+          "assigneeId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "xtaput9jzoduv"
+            },
+            "format": "uuid",
+            "description": "If this door has been assigned to an installer, then this is the user's ID."
+          },
+          "createdAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "jaew6rmknzv4v"
+            },
+            "format": "date-time"
+          },
+          "doorType": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "hcesfrlqt6bny"
+            },
+            "example": "Double Door",
+            "enum": [
+              "single",
+              "double"
+            ]
+          },
+          "customerRef": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "36l0ca5d2dwvl"
+            },
+            "description": "Customer defined reference for this door.",
+            "example": "Side door"
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "cu51zfhazhvh0"
+            },
+            "description": "Terribly named field - but this is the internal door reference.\r\nStarts with `HF`, and is `7` numbers.",
+            "example": "HF1000023",
+            "maxLength": 9,
+            "minLength": 9
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "48nvb4rgop7un"
+            },
+            "example": "Side door - HF1000023",
+            "maxLength": 9,
+            "minLength": 9,
+            "description": "A name field computed from the customer ref + description fields."
+          },
+          "status": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "py2c03aat5f43"
+            },
+            "description": "The doors current overall status - computed from the current statuses (although currently set by the sensor update function)."
+          },
+          "width": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "direction": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The door opening direction - either CW (clockwise) or CCW (counter-clockwise)."
+          },
+          "systemStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ak578w45mfvxm"
+            },
+            "description": "Indicates a system error - i.e. a low or critical battery level."
+          },
+          "slamStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "yga8jmceo61nv"
+            },
+            "description": "Indicates a current slam alert."
+          },
+          "vandalismStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9p5sn3e0nrofs"
+            },
+            "description": "Indicates a current vandalism issue."
+          },
+          "orientationStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "lctohisxumve7"
+            },
+            "description": "Indicates if the door has been taken off its hinges."
+          },
+          "gapsStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "hidyhminhlikz"
+            },
+            "description": "Indicates the current gaps status - may be alert or warning."
+          },
+          "timeoutStatus": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "b8i3307hbp5ln"
+            },
+            "description": "Indicates if the door currently has a open timeout alert."
+          },
+          "utilisation": {
+            "type": "object",
+            "x-stoplight": {
+              "id": "7240mwayts000"
+            },
+            "description": "Utilisation statistics for this door (open counts).",
+            "properties": {
+              "week": {
+                "type": "array",
+                "x-stoplight": {
+                  "id": "nt1g4b5gsfnfr"
+                },
+                "description": "Door open counts per week.",
+                "items": {
+                  "x-stoplight": {
+                    "id": "vstzwga1q7fu4"
+                  },
+                  "type": "object",
+                  "properties": {
+                    "day": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "fi06d83z72fod"
+                      },
+                      "format": "date",
+                      "description": "The week **start** date for this count."
+                    },
+                    "count": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "zmbbh40vs9aqk"
+                      },
+                      "description": "The total open count for this week."
+                    }
+                  },
+                  "required": [
+                    "day",
+                    "count"
+                  ]
+                }
+              },
+              "lifetime": {
+                "type": "array",
+                "x-stoplight": {
+                  "id": "fprsmpoy7hlxe"
+                },
+                "description": "The lifetime open count for this door, split into weeks.",
+                "items": {
+                  "type": "object",
+                  "x-stoplight": {
+                    "id": "i0ummouy8k3ou"
+                  },
+                  "description": "The lifetime open count for this door, split into weeks.",
+                  "properties": {
+                    "week": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "rxeezkj8qhhdy"
+                      },
+                      "format": "date",
+                      "description": "The week (start date) this count is for."
+                    },
+                    "count": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "ddzfqllfjjerc"
+                      },
+                      "description": "The total open count for this weeks period - NOT the rolling open count."
+                    },
+                    "total": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "dc7okpyj2zwdx"
+                      },
+                      "description": "The total(rolling) open count for this door."
+                    }
+                  },
+                  "required": [
+                    "week",
+                    "count",
+                    "total"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "week",
+              "lifetime"
+            ]
+          },
+          "measurements": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "fxiqklevyjtq3"
+            },
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "jlf972vahglq9"
+              }
+            }
+          },
+          "top_left_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "kdn6wkh77mbyn"
+            },
+            "exclusiveMinimum": 0
+          },
+          "top_right_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "0ab0b5qzp921e"
+            },
+            "exclusiveMinimum": 0
+          },
+          "bottom_left_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "09qgoas6i0fr6"
+            },
+            "exclusiveMinimum": 0
+          },
+          "bottom_right_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "frfvg6z6ut5a5"
+            },
+            "exclusiveMinimum": 0
+          },
+          "hinge_top_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "outs3b1yjcrl5"
+            },
+            "exclusiveMinimum": 0
+          },
+          "hinge_bottom_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "ncqdycoa7s5wf"
+            },
+            "exclusiveMinimum": 0
+          },
+          "swing_top_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "xzffeiqc8fi5c"
+            },
+            "exclusiveMinimum": 0
+          },
+          "swing_bottom_measurement": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "wou0d816o5x7s"
+            },
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "doorType",
+          "customerRef",
+          "description",
+          "name",
+          "status",
+          "systemStatus",
+          "slamStatus",
+          "vandalismStatus",
+          "orientationStatus",
+          "gapsStatus",
+          "timeoutStatus"
+        ]
+      },
+      "Floor": {
+        "title": "Floor",
+        "x-stoplight": {
+          "id": "j3iibybv66ieb"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "qrqj0kmjjpa92"
+            },
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "533trneq700hs"
+            },
+            "description": "The floor name, computed from the customer defined description, or the floor number."
+          },
+          "floorNumber": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "5w4n5jgrd0fug"
+            },
+            "example": 3
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "e0utembcd8nlk"
+            },
+            "description": "Customer defined floor description."
+          },
+          "status": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "tov449lniqqze"
+            },
+            "description": "The current aggregated status for this floor, computed from all doors within this floor."
+          },
+          "floorPlanImage": {
+            "$ref": "#/components/schemas/File",
+            "x-stoplight": {
+              "id": "fz6r3vgdxmrea"
+            }
+          },
+          "floorPlanData": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "c2qcagnosf82m"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "floorNumber",
+          "description",
+          "status"
+        ]
+      },
+      "Site": {
+        "title": "Site",
+        "x-stoplight": {
+          "id": "m9xd4qjnwnj9b"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "hi6c9fhrb7rzj"
+            },
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "axjmo8f9grq0d"
+            }
+          },
+          "address": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "uj8ekj6inq7sk"
+            }
+          },
+          "sector": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "myg5fifgx5de1"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "address",
+          "sector"
+        ]
+      },
+      "Organization": {
+        "title": "Organization",
+        "x-stoplight": {
+          "id": "v3xw85v0xvr07"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "h3m0rb64vp9cu"
+            },
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7t9m3fp9u2hxg"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "FormattedObject": {
+        "title": "Formatted Object",
+        "x-stoplight": {
+          "id": "887xr6zncs1ag"
+        },
+        "type": "object",
+        "description": "A generic shape we frequently format arrays of objects into, to have a normalized schema.",
+        "properties": {
+          "key": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "i2o6crtij9oft"
+            },
+            "description": "The unique (likely `camelCase`) key for this value.",
+            "example": "topLeftMeasurement",
+            "enum": [
+              "topLeft",
+              "topRight",
+              "bottomLeft",
+              "bottomRight",
+              "topCenterLeft",
+              "topCenterRight",
+              "leftHingeTop",
+              "leftHingeBottom",
+              "bottomCenterLeft",
+              "bottomCenterRight",
+              "rightHingeTop",
+              "rightHingeBottom",
+              "swingTop",
+              "swingBottom",
+              "hingeTop",
+              "hingeBottom"
+            ]
+          },
+          "point": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "u6ehhgbvp94qy"
+            },
+            "description": "The basic measurement point, without any prefix/suffix like 'measurement' or 'gap'.",
+            "example": "Top Left"
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7seg6bku5xfgm"
+            },
+            "description": "The friendly name for this value - can be displayed in the UI.",
+            "example": "Top Left Gap"
+          },
+          "value": {
+            "type": [
+              "integer",
+              "string",
+              "boolean",
+              "number"
+            ],
+            "x-stoplight": {
+              "id": "ihhf7xcyrqv33"
+            },
+            "description": "The original value.",
+            "example": 4
+          },
+          "formatted": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "etmim3tijwb7l"
+            },
+            "description": "The formatted value - may include units.",
+            "example": "4mm"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "value",
+          "formatted"
+        ]
+      },
+      "Notification": {
+        "title": "Notification",
+        "x-stoplight": {
+          "id": "tiimq6n1vyjcw"
+        },
+        "type": "object",
+        "examples": [
+          {
+            "id": 1,
+            "message": "Door taken off its hinges",
+            "doorId": "99816916-8a13-4d28-b44b-83adf82b35e1",
+            "status": "Non Conforming",
+            "type": "Orientation Status",
+            "typeLower": "orientation status",
+            "createdAt": "2025-03-04 00:20:23.007+00"
+          },
+          {
+            "id": 2,
+            "message": "Vandalism detected",
+            "doorId": "99816916-8a13-4d28-b44b-83adf82b35e1",
+            "status": "Non Conforming",
+            "type": "Vandalism Status",
+            "typeLower": "vandalism status",
+            "createdAt": "2025-02-07 22:29:49.193+00"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "hypyugu2f27g7"
+            },
+            "example": 1
+          },
+          "message": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "8c6z0ilppqpxb"
+            },
+            "description": "The readable message content for this notification.",
+            "example": "Door taken off its hinges"
+          },
+          "doorId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "xd0o75hrya6o8"
+            },
+            "format": "uuid",
+            "description": "The internal ID for the door this notification was created for.",
+            "example": "99816916-8a13-4d28-b44b-83adf82b35e1"
+          },
+          "status": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ov8h9ludfld5l"
+            },
+            "example": "Non Conforming"
+          },
+          "type": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "gids61b1p38vs"
+            },
+            "description": "The type of notification this is.",
+            "example": "Orientation Status"
+          },
+          "typeLower": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "d24rvm6h9494t"
+            },
+            "description": "A formatted/normalized version of the `type` field.",
+            "example": "orientation status"
+          },
+          "createdAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7upvdnc07cqgf"
+            },
+            "format": "date-time",
+            "example": "2025-03-04 00:20:23.007+00"
+          }
+        },
+        "required": [
+          "id",
+          "message",
+          "doorId",
+          "status",
+          "type",
+          "typeLower",
+          "createdAt"
+        ]
+      },
+      "SensorEvent": {
+        "title": "Sensor Event",
+        "x-stoplight": {
+          "id": "mp5foly1uxsum"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "receivedAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "jgiz836rp8iqu"
+            },
+            "format": "date-time"
+          },
+          "batteryVoltage": {
+            "type": "number"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "temperatureMin": {
+            "type": "number"
+          },
+          "temperatureMax": {
+            "type": "number"
+          },
+          "spreadingFactor": {
+            "type": "number"
+          },
+          "snr": {
+            "type": "string"
+          },
+          "rssi": {
+            "type": "number"
+          },
+          "messageType": {
+            "type": "number"
+          },
+          "doorOpenCount": {
+            "type": "number"
+          },
+          "doorSlamCount": {
+            "type": "number"
+          },
+          "vBatMV": {
+            "type": "number"
+          },
+          "magnetometerX": {
+            "type": "number"
+          },
+          "magnetometerY": {
+            "type": "number"
+          },
+          "magnetometerZ": {
+            "type": "number"
+          },
+          "accelerometerX": {
+            "type": "number"
+          },
+          "accelerometerY": {
+            "type": "number"
+          },
+          "accelerometerZ": {
+            "type": "number"
+          },
+          "xum": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "yum": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "zum": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "xmm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ymm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "zmm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "calculatedMeasurements": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "fjftbtvsfcnms"
+            },
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "vfn6wimxh6012"
+              }
+            }
+          },
+          "calculatedOffsets": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "qfkxz4ehppis7"
+            },
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "gb1wbrihykx0g"
+              }
+            }
+          },
+          "snapshotMeasurements": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "ax714f64xu0oh"
+            },
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "7qdjbmk6gu7xp"
+              }
+            }
+          },
+          "calculatedGaps": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "hqd0j6fopt99b"
+            },
+            "items": {
+              "$ref": "#/components/schemas/FormattedObject",
+              "x-stoplight": {
+                "id": "ab0qtirge6tmq"
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "receivedAt",
+          "calculatedMeasurements",
+          "calculatedOffsets",
+          "snapshotMeasurements",
+          "calculatedGaps",
+          "doorOpenCount",
+          "doorSlamCount",
+          "vBatMv",
+          "messageType"
+        ]
+      },
+      "BasicPaginationResponse": {
+        "title": "BasicPaginationResponse",
+        "x-stoplight": {
+          "id": "5sz20gfyroiy3"
+        },
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "nsdn3od0blzn0"
+            },
+            "description": "Total number of results for this query."
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "Tenant": {
+        "title": "Tenant",
+        "x-stoplight": {
+          "id": "pd57kr0u1vv6d"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "x-stoplight": {
+              "id": "xspayrc0qiceb"
+            },
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lastName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "wenwov95a00au"
+            }
+          },
+          "phoneNumber": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "cwa5hrigikpye"
+            }
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "18r99rutxts9d"
+            },
+            "format": "email"
+          },
+          "disabled": {
+            "type": "boolean",
+            "x-stoplight": {
+              "id": "0z1i6irezxcl7"
+            }
+          },
+          "createdById": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "t4vxl8n4667mf"
+            },
+            "format": "uuid"
+          },
+          "updatedById": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "t27l344cgepmy"
+            },
+            "format": "uuid"
+          },
+          "organizationId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ptsb7u1ad3yyp"
+            },
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "2ahyy1ryx5kh7"
+            },
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "o71qqaurtdrg9"
+            },
+            "format": "date"
+          },
+          "deletedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "oaot0bsl4g1rg"
+            },
+            "format": "date"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "disabled"
+        ]
+      },
+      "TenantsDoors": {
+        "title": "TenantsDoors",
+        "x-stoplight": {
+          "id": "6w55hhxgwuuj5"
+        },
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "5m2lb8nkah2ld"
+            },
+            "format": "uuid"
+          },
+          "doorId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "r7z5h9uoxh5e7"
+            },
+            "format": "uuid"
+          },
+          "createdById": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-stoplight": {
+              "id": "ttx976bfopgy7"
+            },
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "lahfasb6k3fu8"
+            },
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "qcf4rwippqyuu"
+            },
+            "format": "date"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticated by a bearer token, from the login endpoint."
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "The shape of a generic `404` response - should be JSON, with an object containing a `message` field that returns a user-friendly error message that can be displayed in the app.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "w7478ibnow7s6"
+                  },
+                  "description": "A message for this response - may or may not be specific to the current resource, but is always user-friendly, so can be shown in the app."
+                }
+              }
+            }
+          }
+        }
+      },
+      "DownlinkTask": {
+        "description": ""
+      },
+      "ValidationError": {
+        "description": "Zod is used for input validation, so this is the shape of the returned response if there are validation errors.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "required": [
+                    "_errors"
+                  ],
+                  "properties": {
+                    "_errors": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "5tjvtu7fs0pht"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "wvmzw9lbyng8p"
+                        },
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                {
+                  "x-stoplight": {
+                    "id": "gepab4dfza9kd"
+                  },
+                  "additionalProperties": {
+                    "x-stoplight": {
+                      "id": "dn5xddpvo1ghi"
+                    },
+                    "type": "array",
+                    "items": {
+                      "x-stoplight": {
+                        "id": "yrzjno4d0m8ve"
+                      },
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          }
+        }
+      },
+      "TenantsQueryResponse": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BasicPaginationResponse"
+                },
+                {
+                  "type": "object",
+                  "x-stoplight": {
+                    "id": "fxg7s67h9fnms"
+                  },
+                  "properties": {
+                    "rows": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "2n26bjucsmmcp"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "3hpybpcjs2y3w"
+                        },
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "x-stoplight": {
+                              "id": "2psfvmh503xsf"
+                            },
+                            "properties": {
+                              "doors": {
+                                "x-stoplight": {
+                                  "id": "79w101haa9gup"
+                                },
+                                "allOf": [
+                                  {
+                                    "$ref": "#/components/schemas/Door",
+                                    "x-stoplight": {
+                                      "id": "lcc2nm27x8w8z"
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "$ref": "#/components/schemas/Tenant",
+                            "x-stoplight": {
+                              "id": "v7eophhl445m1"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "DownlinkTaskCreate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SensorConfigureInput"
+            }
+          }
+        },
+        "description": "The different inputs a user can send to configure a sensor (via the downlink API)."
+      },
+      "DoorCreate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "x-examples": {
+                "Example 1": {
+                  "height": null,
+                  "width": null,
+                  "measurements": [
+                    {
+                      "key": "topLeft",
+                      "field": "top_left",
+                      "name": "Top Left",
+                      "value": 5.55,
+                      "formatted": "5.55mm"
+                    }
+                  ],
+                  "name": "jinxu test - HF0000009",
+                  "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                  "assigneeId": null,
+                  "description": "HF0000009",
+                  "doorType": "single",
+                  "customerRef": "jinxu test",
+                  "direction": null,
+                  "slamStatus": "normal",
+                  "vandalismStatus": "normal",
+                  "orientationStatus": "normal",
+                  "systemStatus": "normal",
+                  "gapsStatus": "Conforming",
+                  "timeoutStatus": "normal",
+                  "status": null,
+                  "door_no": null,
+                  "createdAt": "2025-04-30T21:51:24.073Z",
+                  "updatedAt": "2025-05-14T14:42:04.129Z",
+                  "deletedAt": null,
+                  "floorId": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                  "createdById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "updatedById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "sensors": [],
+                  "floor": {
+                    "name": "4th Floor",
+                    "id": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                    "description": "4th Floor",
+                    "siteId": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                    "floorNumber": 4,
+                    "doors": [
+                      {
+                        "id": "faee2b33-dbfa-421a-941b-350ed62126bd",
+                        "description": "HF0000007",
+                        "customerRef": "Office door"
+                      },
+                      {
+                        "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                        "description": "HF0000009",
+                        "customerRef": "jinxu test"
+                      },
+                      {
+                        "id": "9888904f-a77d-4b24-8585-a9eec5f1ff14",
+                        "description": "HF1234501",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "c9316e18-c9e2-4159-a9dd-69f3a7a08124",
+                        "description": "HF1234502",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "ec360bac-0cda-44f0-b0d5-720cbfa1bbf0",
+                        "description": "HF1234503",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dd341145-0104-4507-a321-86b3f5b98558",
+                        "description": "HF1234566",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "d14f8078-5f58-4b74-9276-34ea676f5db9",
+                        "description": "HF1234577",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "f95277cd-7d97-4d66-bc0a-d6fa9ac2b374",
+                        "description": "HF1234578",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "cfd79396-dbfb-4edd-8999-80f058f29d70",
+                        "description": "HF1234579",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "a6ecbfff-af6f-4ebe-98d9-9c3f096fb900",
+                        "description": "HF1234580",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "b4ae6d3d-ad3f-4dec-8c4a-b8d17c069506",
+                        "description": "HF1234581",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "1a2d2ba2-1bc2-45e2-bafd-93995cde344f",
+                        "description": "HF1234582",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "56bb469a-6349-46ff-805c-c56a51083fe6",
+                        "description": "HF1234583",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dc81cf35-783f-4add-af8f-6e1f5447b880",
+                        "description": "HF2508048",
+                        "customerRef": null
+                      },
+                      {
+                        "id": "2a1d8f5e-8b5b-4281-b78d-eff403592bba",
+                        "description": "HF9041760",
+                        "customerRef": null
+                      }
+                    ],
+                    "site": {
+                      "id": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                      "name": "483 Sporer Heights",
+                      "address": "574 Florence Yard Suite 954, Nether Brekkeingham, Northern Ireland, PR63 1IE",
+                      "organizationId": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                      "organization": {
+                        "id": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                        "name": "McGlynn Group"
+                      }
+                    }
+                  },
+                  "notifications": [],
+                  "utilisation": {
+                    "week": [],
+                    "lifetime": []
+                  }
+                }
+              },
+              "properties": {
+                "floorId": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "mdca0srac823l"
+                  },
+                  "format": "uuid"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "customerRef": {
+                  "type": "string"
+                },
+                "gapMeasurements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-stoplight": {
+                      "id": "9derenhalfk0d"
+                    },
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "enum": [
+                          "topLeft",
+                          "topRight",
+                          "bottomLeft",
+                          "bottomRight",
+                          "topCenterLeft",
+                          "topCenterRight",
+                          "leftHingeTop",
+                          "leftHingeBottom",
+                          "bottomCenterLeft",
+                          "bottomCenterRight",
+                          "rightHingeTop",
+                          "rightHingeBottom",
+                          "swingTop",
+                          "swingBottom",
+                          "hingeTop",
+                          "hingeBottom"
+                        ]
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "dimensions": {
+                  "type": "object",
+                  "x-stoplight": {
+                    "id": "pdtnpydpcxr01"
+                  },
+                  "properties": {
+                    "width": {
+                      "type": "number",
+                      "x-stoplight": {
+                        "id": "y8zhircsmhisq"
+                      }
+                    },
+                    "height": {
+                      "type": "number",
+                      "x-stoplight": {
+                        "id": "5432m08l4ohxa"
+                      }
+                    },
+                    "direction": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "nutuw5jbyurmj"
+                      },
+                      "description": "Direction must be 'CW' (clockwise) or 'CCW' (countercl",
+                      "enum": [
+                        "CW",
+                        "CCW"
+                      ]
+                    }
+                  }
+                },
+                "assigneeId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uuid"
+                },
+                "doorType": {
+                  "type": "string",
+                  "enum": [
+                    "single",
+                    "double"
+                  ],
+                  "description": "doorType must be 'single' or 'double'"
+                }
+              },
+              "required": [
+                "floorId",
+                "description",
+                "doorType"
+              ]
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "height": null,
+                  "width": null,
+                  "top_right_measurement": null,
+                  "hinge_bottom_measurement": null,
+                  "top_left_measurement": null,
+                  "swing_bottom_measurement": null,
+                  "hinge_top_measurement": null,
+                  "bottom_left_measurement": null,
+                  "swing_top_measurement": null,
+                  "bottom_right_measurement": null,
+                  "measurements": [
+                    {
+                      "key": "topLeft",
+                      "field": "top_left",
+                      "name": "Top Left",
+                      "value": 5.55,
+                      "formatted": "5.55mm"
+                    }
+                  ],
+                  "name": "jinxu test - HF0000009",
+                  "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                  "assigneeId": null,
+                  "description": "HF0000009",
+                  "doorType": "single",
+                  "customerRef": "jinxu test",
+                  "direction": null,
+                  "slamStatus": "normal",
+                  "vandalismStatus": "normal",
+                  "orientationStatus": "normal",
+                  "systemStatus": "normal",
+                  "gapsStatus": "Conforming",
+                  "timeoutStatus": "normal",
+                  "status": null,
+                  "door_no": null,
+                  "createdAt": "2025-04-30T21:51:24.073Z",
+                  "updatedAt": "2025-05-14T14:42:04.129Z",
+                  "deletedAt": null,
+                  "floorId": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                  "createdById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "updatedById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "sensors": [],
+                  "floor": {
+                    "name": "4th Floor",
+                    "id": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                    "description": "4th Floor",
+                    "siteId": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                    "floorNumber": 4,
+                    "doors": [
+                      {
+                        "id": "faee2b33-dbfa-421a-941b-350ed62126bd",
+                        "description": "HF0000007",
+                        "customerRef": "Office door"
+                      },
+                      {
+                        "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                        "description": "HF0000009",
+                        "customerRef": "jinxu test"
+                      },
+                      {
+                        "id": "9888904f-a77d-4b24-8585-a9eec5f1ff14",
+                        "description": "HF1234501",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "c9316e18-c9e2-4159-a9dd-69f3a7a08124",
+                        "description": "HF1234502",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "ec360bac-0cda-44f0-b0d5-720cbfa1bbf0",
+                        "description": "HF1234503",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dd341145-0104-4507-a321-86b3f5b98558",
+                        "description": "HF1234566",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "d14f8078-5f58-4b74-9276-34ea676f5db9",
+                        "description": "HF1234577",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "f95277cd-7d97-4d66-bc0a-d6fa9ac2b374",
+                        "description": "HF1234578",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "cfd79396-dbfb-4edd-8999-80f058f29d70",
+                        "description": "HF1234579",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "a6ecbfff-af6f-4ebe-98d9-9c3f096fb900",
+                        "description": "HF1234580",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "b4ae6d3d-ad3f-4dec-8c4a-b8d17c069506",
+                        "description": "HF1234581",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "1a2d2ba2-1bc2-45e2-bafd-93995cde344f",
+                        "description": "HF1234582",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "56bb469a-6349-46ff-805c-c56a51083fe6",
+                        "description": "HF1234583",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dc81cf35-783f-4add-af8f-6e1f5447b880",
+                        "description": "HF2508048",
+                        "customerRef": null
+                      },
+                      {
+                        "id": "2a1d8f5e-8b5b-4281-b78d-eff403592bba",
+                        "description": "HF9041760",
+                        "customerRef": null
+                      }
+                    ],
+                    "site": {
+                      "id": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                      "name": "483 Sporer Heights",
+                      "address": "574 Florence Yard Suite 954, Nether Brekkeingham, Northern Ireland, PR63 1IE",
+                      "organizationId": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                      "organization": {
+                        "id": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                        "name": "McGlynn Group"
+                      }
+                    }
+                  },
+                  "notifications": [],
+                  "utilisation": {
+                    "week": [],
+                    "lifetime": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "DoorUpdate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "x-examples": {
+                "Example 1": {
+                  "height": null,
+                  "width": null,
+                  "measurements": [
+                    {
+                      "key": "topLeft",
+                      "field": "top_left",
+                      "name": "Top Left",
+                      "value": 5.55,
+                      "formatted": "5.55mm"
+                    }
+                  ],
+                  "name": "jinxu test - HF0000009",
+                  "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                  "assigneeId": null,
+                  "description": "HF0000009",
+                  "doorType": "single",
+                  "customerRef": "jinxu test",
+                  "direction": null,
+                  "slamStatus": "normal",
+                  "vandalismStatus": "normal",
+                  "orientationStatus": "normal",
+                  "systemStatus": "normal",
+                  "gapsStatus": "Conforming",
+                  "timeoutStatus": "normal",
+                  "status": null,
+                  "door_no": null,
+                  "createdAt": "2025-04-30T21:51:24.073Z",
+                  "updatedAt": "2025-05-14T14:42:04.129Z",
+                  "deletedAt": null,
+                  "floorId": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                  "createdById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "updatedById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "sensors": [],
+                  "floor": {
+                    "name": "4th Floor",
+                    "id": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                    "description": "4th Floor",
+                    "siteId": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                    "floorNumber": 4,
+                    "doors": [
+                      {
+                        "id": "faee2b33-dbfa-421a-941b-350ed62126bd",
+                        "description": "HF0000007",
+                        "customerRef": "Office door"
+                      },
+                      {
+                        "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                        "description": "HF0000009",
+                        "customerRef": "jinxu test"
+                      },
+                      {
+                        "id": "9888904f-a77d-4b24-8585-a9eec5f1ff14",
+                        "description": "HF1234501",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "c9316e18-c9e2-4159-a9dd-69f3a7a08124",
+                        "description": "HF1234502",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "ec360bac-0cda-44f0-b0d5-720cbfa1bbf0",
+                        "description": "HF1234503",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dd341145-0104-4507-a321-86b3f5b98558",
+                        "description": "HF1234566",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "d14f8078-5f58-4b74-9276-34ea676f5db9",
+                        "description": "HF1234577",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "f95277cd-7d97-4d66-bc0a-d6fa9ac2b374",
+                        "description": "HF1234578",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "cfd79396-dbfb-4edd-8999-80f058f29d70",
+                        "description": "HF1234579",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "a6ecbfff-af6f-4ebe-98d9-9c3f096fb900",
+                        "description": "HF1234580",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "b4ae6d3d-ad3f-4dec-8c4a-b8d17c069506",
+                        "description": "HF1234581",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "1a2d2ba2-1bc2-45e2-bafd-93995cde344f",
+                        "description": "HF1234582",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "56bb469a-6349-46ff-805c-c56a51083fe6",
+                        "description": "HF1234583",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dc81cf35-783f-4add-af8f-6e1f5447b880",
+                        "description": "HF2508048",
+                        "customerRef": null
+                      },
+                      {
+                        "id": "2a1d8f5e-8b5b-4281-b78d-eff403592bba",
+                        "description": "HF9041760",
+                        "customerRef": null
+                      }
+                    ],
+                    "site": {
+                      "id": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                      "name": "483 Sporer Heights",
+                      "address": "574 Florence Yard Suite 954, Nether Brekkeingham, Northern Ireland, PR63 1IE",
+                      "organizationId": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                      "organization": {
+                        "id": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                        "name": "McGlynn Group"
+                      }
+                    }
+                  },
+                  "notifications": [],
+                  "utilisation": {
+                    "week": [],
+                    "lifetime": []
+                  }
+                }
+              },
+              "properties": {
+                "floorId": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "vmx43c1lvoho2"
+                  },
+                  "format": "uuid"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "customerRef": {
+                  "type": "string"
+                },
+                "gapMeasurements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-stoplight": {
+                      "id": "0lz0zvv7wyujr"
+                    },
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "enum": [
+                          "topLeft",
+                          "topRight",
+                          "bottomLeft",
+                          "bottomRight",
+                          "topCenterLeft",
+                          "topCenterRight",
+                          "leftHingeTop",
+                          "leftHingeBottom",
+                          "bottomCenterLeft",
+                          "bottomCenterRight",
+                          "rightHingeTop",
+                          "rightHingeBottom",
+                          "swingTop",
+                          "swingBottom",
+                          "hingeTop",
+                          "hingeBottom"
+                        ]
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "dimensions": {
+                  "type": "object",
+                  "x-stoplight": {
+                    "id": "5ir901nkl9i1l"
+                  },
+                  "properties": {
+                    "width": {
+                      "type": "number",
+                      "x-stoplight": {
+                        "id": "2x4fctajvgg0g"
+                      }
+                    },
+                    "height": {
+                      "type": "number",
+                      "x-stoplight": {
+                        "id": "k5dgapo5o3779"
+                      }
+                    },
+                    "direction": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "094o0972bxikg"
+                      },
+                      "description": "Direction must be 'CW' (clockwise) or 'CCW' (countercl",
+                      "enum": [
+                        "CW",
+                        "CCW"
+                      ]
+                    }
+                  }
+                },
+                "assigneeId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uuid"
+                },
+                "doorType": {
+                  "type": "string",
+                  "enum": [
+                    "single",
+                    "double"
+                  ],
+                  "description": "doorType must be 'single' or 'double'"
+                }
+              }
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "height": null,
+                  "width": null,
+                  "top_right_measurement": null,
+                  "hinge_bottom_measurement": null,
+                  "top_left_measurement": null,
+                  "swing_bottom_measurement": null,
+                  "hinge_top_measurement": null,
+                  "bottom_left_measurement": null,
+                  "swing_top_measurement": null,
+                  "bottom_right_measurement": null,
+                  "measurements": [
+                    {
+                      "key": "topLeft",
+                      "field": "top_left",
+                      "name": "Top Left",
+                      "value": 5.55,
+                      "formatted": "5.55mm"
+                    }
+                  ],
+                  "name": "jinxu test - HF0000009",
+                  "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                  "assigneeId": null,
+                  "description": "HF0000009",
+                  "doorType": "single",
+                  "customerRef": "jinxu test",
+                  "direction": null,
+                  "slamStatus": "normal",
+                  "vandalismStatus": "normal",
+                  "orientationStatus": "normal",
+                  "systemStatus": "normal",
+                  "gapsStatus": "Conforming",
+                  "timeoutStatus": "normal",
+                  "status": null,
+                  "door_no": null,
+                  "createdAt": "2025-04-30T21:51:24.073Z",
+                  "updatedAt": "2025-05-14T14:42:04.129Z",
+                  "deletedAt": null,
+                  "floorId": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                  "createdById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "updatedById": "928be0f5-639c-4526-94b0-75033f4869f3",
+                  "sensors": [],
+                  "floor": {
+                    "name": "4th Floor",
+                    "id": "0c5c669e-db89-46d9-8bac-ca742eb98086",
+                    "description": "4th Floor",
+                    "siteId": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                    "floorNumber": 4,
+                    "doors": [
+                      {
+                        "id": "faee2b33-dbfa-421a-941b-350ed62126bd",
+                        "description": "HF0000007",
+                        "customerRef": "Office door"
+                      },
+                      {
+                        "id": "6452df16-7658-44cf-a4fd-faa89b8fa929",
+                        "description": "HF0000009",
+                        "customerRef": "jinxu test"
+                      },
+                      {
+                        "id": "9888904f-a77d-4b24-8585-a9eec5f1ff14",
+                        "description": "HF1234501",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "c9316e18-c9e2-4159-a9dd-69f3a7a08124",
+                        "description": "HF1234502",
+                        "customerRef": "1234567"
+                      },
+                      {
+                        "id": "ec360bac-0cda-44f0-b0d5-720cbfa1bbf0",
+                        "description": "HF1234503",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dd341145-0104-4507-a321-86b3f5b98558",
+                        "description": "HF1234566",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "d14f8078-5f58-4b74-9276-34ea676f5db9",
+                        "description": "HF1234577",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "f95277cd-7d97-4d66-bc0a-d6fa9ac2b374",
+                        "description": "HF1234578",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "cfd79396-dbfb-4edd-8999-80f058f29d70",
+                        "description": "HF1234579",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "a6ecbfff-af6f-4ebe-98d9-9c3f096fb900",
+                        "description": "HF1234580",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "b4ae6d3d-ad3f-4dec-8c4a-b8d17c069506",
+                        "description": "HF1234581",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "1a2d2ba2-1bc2-45e2-bafd-93995cde344f",
+                        "description": "HF1234582",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "56bb469a-6349-46ff-805c-c56a51083fe6",
+                        "description": "HF1234583",
+                        "customerRef": "1234563"
+                      },
+                      {
+                        "id": "dc81cf35-783f-4add-af8f-6e1f5447b880",
+                        "description": "HF2508048",
+                        "customerRef": null
+                      },
+                      {
+                        "id": "2a1d8f5e-8b5b-4281-b78d-eff403592bba",
+                        "description": "HF9041760",
+                        "customerRef": null
+                      }
+                    ],
+                    "site": {
+                      "id": "63e5acc1-7f38-457a-b6fa-5add4edd4f1e",
+                      "name": "483 Sporer Heights",
+                      "address": "574 Florence Yard Suite 954, Nether Brekkeingham, Northern Ireland, PR63 1IE",
+                      "organizationId": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                      "organization": {
+                        "id": "27f6c753-5c7f-4b07-a80e-ffe96ff5539c",
+                        "name": "McGlynn Group"
+                      }
+                    }
+                  },
+                  "notifications": [],
+                  "utilisation": {
+                    "week": [],
+                    "lifetime": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "TenantCreate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "osakyw714o29x"
+                  }
+                },
+                "lastName": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "8l1u42sdmw659"
+                  }
+                },
+                "email": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "xfcokqflv8mtt"
+                  },
+                  "format": "email"
+                },
+                "phoneNumber": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "cgqpevcg2rr7d"
+                  }
+                },
+                "disabled": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "czya62a015djx"
+                  },
+                  "default": false
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email"
+              ]
+            }
+          }
+        }
+      },
+      "TenantUpdate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "osakyw714o29x"
+                  }
+                },
+                "lastName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "8l1u42sdmw659"
+                  }
+                },
+                "email": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "xfcokqflv8mtt"
+                  },
+                  "format": "email"
+                },
+                "phoneNumber": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "cgqpevcg2rr7d"
+                  }
+                },
+                "disabled": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ],
+                  "x-stoplight": {
+                    "id": "czya62a015djx"
+                  },
+                  "default": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "TenantsListQuery": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "searchQuery": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "xn8ps0q3p6ltr"
+                  }
+                },
+                "sortBy": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "b86vnlkreckli"
+                  }
+                },
+                "sortOrder": {
+                  "type": "string",
+                  "x-stoplight": {
+                    "id": "35nmlkucng0tj"
+                  }
+                },
+                "limit": {
+                  "type": "number",
+                  "x-stoplight": {
+                    "id": "jl6kysp97d0hm"
+                  }
+                },
+                "offset": {
+                  "type": "number",
+                  "x-stoplight": {
+                    "id": "c31r10o9ah0p8"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "UsersGetSortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "enum(['firstName', 'lastName', 'email', 'organizationId', 'role', 'disabled', 'receiveEmailNotifications'])"
+      },
+      "UserGetSearchQuery": {
+        "name": "searchQuery",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "x-internal": false,
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
+}
