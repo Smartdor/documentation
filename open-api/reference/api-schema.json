@@ -1480,9 +1480,18 @@
         "description": "Get a tenant by their ID",
         "parameters": []
       },
-      "post": {
+      "delete": {
+        "summary": "Delete a tenant",
+        "operationId": "delete-tenants-tenantId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
         "summary": "Update a tenant",
-        "operationId": "post-tenants-tenantId",
+        "operationId": "put-tenants-tenantId",
         "responses": {
           "200": {
             "description": "OK",
@@ -1494,18 +1503,6 @@
               }
             }
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/TenantUpdate"
-        }
-      },
-      "delete": {
-        "summary": "Delete a tenant",
-        "operationId": "delete-tenants-tenantId",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
         }
       }
     },
@@ -1513,7 +1510,7 @@
       "parameters": [],
       "post": {
         "summary": "Assign a door to a tenant",
-        "operationId": "post-tenants",
+        "operationId": "post-tenantsDoors",
         "responses": {
           "201": {
             "description": "Created",
