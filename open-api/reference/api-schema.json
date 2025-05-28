@@ -3601,8 +3601,17 @@
         },
         "required": [
           "id",
+          "firstName",
+          "lastName",
+          "phoneNumber",
           "email",
-          "disabled"
+          "disabled",
+          "createdById",
+          "updatedById",
+          "organizationId",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
         ]
       },
       "TenantsDoors": {
