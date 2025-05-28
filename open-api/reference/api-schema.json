@@ -3787,7 +3787,10 @@
                                   }
                                 ]
                               }
-                            }
+                            },
+                            "required": [
+                              "doors"
+                            ]
                           },
                           {
                             "$ref": "#/components/schemas/Tenant",
