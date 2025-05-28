@@ -1395,10 +1395,10 @@
         "operationId": "get-tenants",
         "parameters": [
           {
-            "$ref": "#/components/parameters/UsersGetSortBy"
+            "$ref": "#/components/parameters/TenantsGetSortBy"
           },
           {
-            "$ref": "#/components/parameters/UserGetSearchQuery"
+            "$ref": "#/components/parameters/TenantGetSearchQuery"
           }
         ],
         "description": "Query all tenants"
@@ -4697,47 +4697,6 @@
             }
           }
         }
-      },
-      "TenantsListQuery": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "searchQuery": {
-                  "type": "string",
-                  "x-stoplight": {
-                    "id": "xn8ps0q3p6ltr"
-                  }
-                },
-                "sortBy": {
-                  "type": "string",
-                  "x-stoplight": {
-                    "id": "b86vnlkreckli"
-                  }
-                },
-                "sortOrder": {
-                  "type": "string",
-                  "x-stoplight": {
-                    "id": "35nmlkucng0tj"
-                  }
-                },
-                "limit": {
-                  "type": "number",
-                  "x-stoplight": {
-                    "id": "jl6kysp97d0hm"
-                  }
-                },
-                "offset": {
-                  "type": "number",
-                  "x-stoplight": {
-                    "id": "c31r10o9ah0p8"
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     },
     "parameters": {
@@ -4753,6 +4712,23 @@
       "UserGetSearchQuery": {
         "name": "searchQuery",
         "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "TenantsGetSortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "enum(['firstName', 'lastName', 'email', 'organizationId', 'disabled'])"
+      },
+      "TenantGetSearchQuery": {
+        "name": "searchQuery",
+        "in": "query",
+        "required": false,
         "schema": {
           "type": "string"
         }
