@@ -1510,7 +1510,7 @@
       "parameters": [],
       "post": {
         "summary": "Assign a door to a tenant",
-        "operationId": "post-tenantsDoors",
+        "operationId": "post-tenants-doors-add",
         "responses": {
           "201": {
             "description": "Created",
@@ -1558,7 +1558,7 @@
       "parameters": [],
       "post": {
         "summary": "Unassign a door to a tenant",
-        "operationId": "post-tenantsDoors",
+        "operationId": "post-tenants-doors-remove",
         "responses": {
           "204": {
             "description": "No Content",
@@ -1609,7 +1609,7 @@
       ],
       "get": {
         "summary": "Get all doors assigned to a tenant",
-        "operationId": "get-tenantsDoors-tenantId",
+        "operationId": "get-tenants-doors-tenantId",
         "responses": {
           "200": {
             "description": "OK",
