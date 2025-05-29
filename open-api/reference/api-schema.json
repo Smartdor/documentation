@@ -1506,7 +1506,7 @@
         }
       }
     },
-    "/tenantsDoors": {
+    "/tenants/doors/add": {
       "parameters": [],
       "post": {
         "summary": "Assign a door to a tenant",
@@ -1552,13 +1552,17 @@
             }
           }
         }
-      },
-      "delete": {
-        "summary": "Unassign a door from a tenant",
-        "operationId": "delete-tenantsDoors",
+      }
+    },
+    "/tenants/doors/remove": {
+      "parameters": [],
+      "post": {
+        "summary": "Unassign a door to a tenant",
+        "operationId": "post-tenantsDoors",
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "No Content",
+            "content": {}
           }
         },
         "requestBody": {
@@ -1570,14 +1574,14 @@
                   "tenantId": {
                     "type": "string",
                     "x-stoplight": {
-                      "id": "tdl19v037oryb"
+                      "id": "zv9l1h89b33j1"
                     },
                     "format": "uuid"
                   },
                   "doorId": {
                     "type": "string",
                     "x-stoplight": {
-                      "id": "cecr8i9swttb2"
+                      "id": "0mhc47fdg02gj"
                     },
                     "format": "uuid"
                   }
@@ -1592,7 +1596,7 @@
         }
       }
     },
-    "/tenantsDoors/{tenantId}}": {
+    "/tenants/doors/{tenantId}}": {
       "parameters": [
         {
           "schema": {
