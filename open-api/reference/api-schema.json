@@ -1506,11 +1506,20 @@
         }
       }
     },
-    "/tenants/doors/add": {
-      "parameters": [],
+    "/tenants/{tenantId}/doors": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "tenantId",
+          "in": "path",
+          "required": true
+        }
+      ],
       "post": {
         "summary": "Assign a door to a tenant",
-        "operationId": "post-tenants-doors-add",
+        "operationId": "post-tenants-tenantId-doors",
         "responses": {
           "201": {
             "description": "Created",
@@ -1529,13 +1538,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "tenantId": {
-                    "type": "string",
-                    "x-stoplight": {
-                      "id": "zv9l1h89b33j1"
-                    },
-                    "format": "uuid"
-                  },
                   "doorId": {
                     "type": "string",
                     "x-stoplight": {
@@ -1545,7 +1547,6 @@
                   }
                 },
                 "required": [
-                  "tenantId",
                   "doorId"
                 ]
               }
@@ -1554,49 +1555,36 @@
         }
       }
     },
-    "/tenants/doors/remove": {
-      "parameters": [],
-      "post": {
+    "/tenants/{tenantId}/doors/{doorId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "tenantId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "doorId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
         "summary": "Unassign a door to a tenant",
-        "operationId": "post-tenants-doors-remove",
+        "operationId": "delete-tenants-tenantId-doors-doorId",
         "responses": {
           "204": {
-            "description": "No Content",
-            "content": {}
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "tenantId": {
-                    "type": "string",
-                    "x-stoplight": {
-                      "id": "zv9l1h89b33j1"
-                    },
-                    "format": "uuid"
-                  },
-                  "doorId": {
-                    "type": "string",
-                    "x-stoplight": {
-                      "id": "0mhc47fdg02gj"
-                    },
-                    "format": "uuid"
-                  }
-                },
-                "required": [
-                  "tenantId",
-                  "doorId"
-                ]
-              }
-            }
+            "description": "No Content"
           }
         }
       }
     },
-    "/tenants/doors/{tenantId}}": {
+    "/tenants/{tenantId}}/doors": {
       "parameters": [
         {
           "schema": {
@@ -1609,7 +1597,7 @@
       ],
       "get": {
         "summary": "Get all doors assigned to a tenant",
-        "operationId": "get-tenants-doors-tenantId",
+        "operationId": "get-tenants-tenantId-doors",
         "responses": {
           "200": {
             "description": "OK",
@@ -1626,6 +1614,9 @@
                 }
               }
             }
+          },
+          "": {
+            "content": {}
           }
         }
       }
