@@ -807,6 +807,147 @@
         "parameters": []
       }
     },
+    "/notifications/latest": {
+      "get": {
+        "summary": "Get latest notifications for the current user",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "y13oj6dnzzphe"
+                      },
+                      "items": {
+                        "x-stoplight": {
+                          "id": "h1h76rrtrhc69"
+                        },
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/Notification",
+                            "x-stoplight": {
+                              "id": "g64we3yaoy9kg"
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "x-stoplight": {
+                              "id": "8y9yz4fhsmof9"
+                            },
+                            "properties": {
+                              "door": {
+                                "x-stoplight": {
+                                  "id": "xhwomimqm4sss"
+                                },
+                                "allOf": [
+                                  {
+                                    "$ref": "#/components/schemas/Door",
+                                    "x-stoplight": {
+                                      "id": "ruus40re1iylt"
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "x-stoplight": {
+                                      "id": "zac0qotr173l2"
+                                    },
+                                    "properties": {
+                                      "floor": {
+                                        "x-stoplight": {
+                                          "id": "wn0vlu4kiefsq"
+                                        },
+                                        "allOf": [
+                                          {
+                                            "$ref": "#/components/schemas/Floor",
+                                            "x-stoplight": {
+                                              "id": "a7wl5tg3seoig"
+                                            }
+                                          },
+                                          {
+                                            "type": "object",
+                                            "x-stoplight": {
+                                              "id": "wqzn8ay8bk96p"
+                                            },
+                                            "properties": {
+                                              "site": {
+                                                "x-stoplight": {
+                                                  "id": "tsidcrvfvmj3f"
+                                                },
+                                                "allOf": [
+                                                  {
+                                                    "$ref": "#/components/schemas/Site",
+                                                    "x-stoplight": {
+                                                      "id": "87zq3xpdamnqq"
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "door"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-notifications-latest",
+        "description": "An endpoint that returns a users latest notifications (scoped to an organisation if not an admin).",
+        "parameters": []
+      }
+    },
+    "/notifications/settings-schema": {
+      "get": {
+        "summary": "Get the notification settings schema used to create the settings form, along with defaults.",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/EventTypeConfiguration"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-notifications-settings-schema",
+        "description": "An endpoint that returns all available notification configuration settings for event types and statuses, that can be used in the settings form.",
+        "parameters": []
+      }
+    },
     "/floors": {
       "get": {
         "summary": "Get Floors",
@@ -1298,7 +1439,7 @@
         "description": "Fetch a single floor by its ID."
       }
     },
-    "/users": {
+     "/users": {
       "get": {
         "summary": "Fetch Users",
         "tags": [],
@@ -1315,40 +1456,40 @@
                     {
                       "type": "object",
                       "x-stoplight": {
-                        "id": "fxg7s67h9fnms"
+                        "id": "3uilax2r12z4i"
                       },
                       "properties": {
                         "rows": {
                           "type": "array",
                           "x-stoplight": {
-                            "id": "2n26bjucsmmcp"
+                            "id": "sshbz3vz9r5hk"
                           },
                           "items": {
                             "x-stoplight": {
-                              "id": "3hpybpcjs2y3w"
+                              "id": "ao31aa8u2lga1"
                             },
                             "allOf": [
                               {
                                 "$ref": "#/components/schemas/User",
                                 "x-stoplight": {
-                                  "id": "2yoledmf0l7kw"
+                                  "id": "e3ri7xja7og61"
                                 }
                               },
                               {
                                 "type": "object",
                                 "x-stoplight": {
-                                  "id": "2psfvmh503xsf"
+                                  "id": "zq7fyazyyz63h"
                                 },
                                 "properties": {
                                   "organization": {
                                     "x-stoplight": {
-                                      "id": "79w101haa9gup"
+                                      "id": "fio6uq4o94cvi"
                                     },
                                     "allOf": [
                                       {
                                         "$ref": "#/components/schemas/Organization",
                                         "x-stoplight": {
-                                          "id": "4i8n3v3vk6be6"
+                                          "id": "z659d4gp06wsy"
                                         }
                                       }
                                     ]
@@ -1381,6 +1522,207 @@
             "$ref": "#/components/parameters/UserGetSearchQuery"
           }
         ]
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "summary": "Fetch User",
+        "tags": [],
+        "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User",
+                      "x-stoplight": {
+                        "id": "e3ri7xja7og61"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "zq7fyazyyz63h"
+                      },
+                      "properties": {
+                        "organization": {
+                          "x-stoplight": {
+                            "id": "fio6uq4o94cvi"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Organization",
+                              "x-stoplight": {
+                                "id": "z659d4gp06wsy"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-user"
+      },
+      "put": {
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserUpdate"
+        },
+        "operationId": "update-user",
+        "summary": "Update a user.",
+        "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User",
+                      "x-stoplight": {
+                        "id": "e3ri7xja7og61"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "zq7fyazyyz63h"
+                      },
+                      "properties": {
+                        "organization": {
+                          "x-stoplight": {
+                            "id": "fio6uq4o94cvi"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Organization",
+                              "x-stoplight": {
+                                "id": "z659d4gp06wsy"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/users/{userId}/subscriptions": {
+      "get": {
+        "summary": "Fetch a user's subscriptions.",
+        "tags": [],
+        "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserSubscription"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "operationId": "get-users-subscriptions"
+      },
+      "put": {
+        "operationId": "update-users-subscriptions",
+        "summary": "Update a user's subscriptions.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserSubscriptionUpdate"
+        },
+        "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserSubscription"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
       }
     },
     "/tenants": {
@@ -1614,9 +1956,6 @@
                 }
               }
             }
-          },
-          "": {
-            "content": {}
           }
         }
       }
@@ -1855,10 +2194,10 @@
           }
         ]
       },
-      "User": {
+    "User": {
         "title": "User",
         "x-stoplight": {
-          "id": "xawxzcji9hdhu"
+          "id": "axl8pfeyc40zl"
         },
         "type": "object",
         "required": [
@@ -1872,21 +2211,20 @@
           "roleName",
           "disabled",
           "receiveEmailNotifications",
-          "avatar",
-          "knock"
+          "avatar"
         ],
         "properties": {
           "id": {
             "type": "string",
             "x-stoplight": {
-              "id": "r3f01v2ejmuri"
+              "id": "yewcsgd3y73ps"
             },
             "format": "uuid"
           },
           "email": {
             "type": "string",
             "x-stoplight": {
-              "id": "o7qeojnpn83ob"
+              "id": "30s9c4oe2lpjs"
             },
             "format": "email"
           },
@@ -1896,7 +2234,7 @@
               "null"
             ],
             "x-stoplight": {
-              "id": "ionaju9em05li"
+              "id": "y4bn8oqqp7cr5"
             }
           },
           "lastName": {
@@ -1905,7 +2243,7 @@
               "null"
             ],
             "x-stoplight": {
-              "id": "xx4r4tjktwl5c"
+              "id": "qozqmv3788hca"
             }
           },
           "name": {
@@ -1914,14 +2252,14 @@
               "null"
             ],
             "x-stoplight": {
-              "id": "mjmzc46g7tl6d"
+              "id": "inh03pic18zmm"
             },
             "description": "The user's first and last names concatenated."
           },
           "roleId": {
             "type": "string",
             "x-stoplight": {
-              "id": "193is4wzq4ak0"
+              "id": "kw1nlvlsbz9kn"
             },
             "format": "uuid",
             "description": "The internal ID of the user's role - shouldn't be used anymore.",
@@ -1930,14 +2268,14 @@
           "role": {
             "$ref": "#/components/schemas/Role",
             "x-stoplight": {
-              "id": "jzc5cwkfccu6x"
+              "id": "ieodvyy2n1cbd"
             },
             "description": "The user's role, as an enum member."
           },
           "roleName": {
             "type": "string",
             "x-stoplight": {
-              "id": "7roc8uif58hk8"
+              "id": "0l4q4djfk07en"
             },
             "description": "The 'nice' role name, for showing in the UI."
           },
@@ -1947,42 +2285,100 @@
               "null"
             ],
             "x-stoplight": {
-              "id": "npkxm477omxqy"
+              "id": "wh17ia0pxpz7z"
             },
             "description": "The user's organization ID. This may be `null` for admin users."
           },
           "disabled": {
             "type": "boolean",
             "x-stoplight": {
-              "id": "nakcp0p53c9q1"
+              "id": "vdp6dl9ycun32"
             },
             "description": "Whether this user is disabled, and therefore blocked from logging in or accessing resources."
           },
           "receiveEmailNotifications": {
             "type": "boolean",
             "x-stoplight": {
-              "id": "uim0ps2fli8so"
+              "id": "8ko29nzpvvbah"
             },
             "description": "Whether this user can receive email notifications - set at admin/org admin level."
           },
           "avatar": {
             "$ref": "#/components/schemas/File",
             "x-stoplight": {
-              "id": "gpv5yhjzjf3hp"
+              "id": "joc5q72r01n0z"
             },
             "description": "The user's profile image."
           },
-          "knock": {
-            "required": [
-              "token"
-            ],
+          "digest": {
+            "description": "The notification digest settings for the user.",
             "type": "object",
             "properties": {
-              "token": {
-                "type": "string",
-                "description": "Secure knock token"
+              "enabled": {
+                "type": "boolean"
+              },
+              "schedule": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": ["frequency", "hour", "minute"],
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": ["daily"]
+                      },
+                      "hour": {
+                        "type": "number"
+                      },
+                      "minute": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["frequency", "hour", "minute", "weekday"],
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": ["weekly"]
+                      },
+                      "weekday": {
+                        "type": "number",
+                        "description": "The numeric week day the report should run - e.g. `3` for Wednesday."
+                      },
+                      "hour": {
+                        "type": "number"
+                      },
+                      "minute": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["frequency", "hour", "minute", "day"],
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": ["monthly"]
+                      },
+                      "day": {
+                        "type": "number",
+                        "description": "The numeric day of the month the report should run - e.g. `2` to run on the second day of the month."
+                      },
+                      "hour": {
+                        "type": "number"
+                      },
+                      "minute": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                ]
               }
-            }
+            },
+            "required": ["enabled"]
           }
         }
       },
@@ -2716,7 +3112,7 @@
             "x-stoplight": {
               "id": "hcesfrlqt6bny"
             },
-            "example": "Double Door",
+            "example": "double",
             "enum": [
               "single",
               "double"
@@ -2748,7 +3144,7 @@
             "x-stoplight": {
               "id": "48nvb4rgop7un"
             },
-            "example": "Side door - HF1000023",
+            "example": "HF1000023",
             "maxLength": 9,
             "minLength": 9,
             "description": "A name field computed from the customer ref + description fields."
@@ -3154,7 +3550,7 @@
               "id": "i2o6crtij9oft"
             },
             "description": "The unique (likely `camelCase`) key for this value.",
-            "example": "topLeftMeasurement",
+            "example": "topCenterLeft",
             "enum": [
               "topLeft",
               "topRight",
@@ -3222,41 +3618,21 @@
       "Notification": {
         "title": "Notification",
         "x-stoplight": {
-          "id": "tiimq6n1vyjcw"
+          "id": "svg8bbq6lp92w"
         },
         "type": "object",
-        "examples": [
-          {
-            "id": 1,
-            "message": "Door taken off its hinges",
-            "doorId": "99816916-8a13-4d28-b44b-83adf82b35e1",
-            "status": "Non Conforming",
-            "type": "Orientation Status",
-            "typeLower": "orientation status",
-            "createdAt": "2025-03-04 00:20:23.007+00"
-          },
-          {
-            "id": 2,
-            "message": "Vandalism detected",
-            "doorId": "99816916-8a13-4d28-b44b-83adf82b35e1",
-            "status": "Non Conforming",
-            "type": "Vandalism Status",
-            "typeLower": "vandalism status",
-            "createdAt": "2025-02-07 22:29:49.193+00"
-          }
-        ],
         "properties": {
           "id": {
             "type": "integer",
             "x-stoplight": {
-              "id": "hypyugu2f27g7"
+              "id": "swdb2ka8yu69g"
             },
             "example": 1
           },
           "message": {
             "type": "string",
             "x-stoplight": {
-              "id": "8c6z0ilppqpxb"
+              "id": "nsvkog1ba3r23"
             },
             "description": "The readable message content for this notification.",
             "example": "Door taken off its hinges"
@@ -3264,42 +3640,154 @@
           "doorId": {
             "type": "string",
             "x-stoplight": {
-              "id": "xd0o75hrya6o8"
+              "id": "j6ugcztp71inb"
             },
             "format": "uuid",
             "description": "The internal ID for the door this notification was created for.",
             "example": "99816916-8a13-4d28-b44b-83adf82b35e1"
           },
+          "sensorId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "j6ugcztp71inb"
+            },
+            "format": "uuid",
+            "description": "The internal ID for the sensor this notification was created for.",
+            "example": "99816916-8a13-4d28-b44b-83adf82b35e1"
+          },
+          "organizationId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "j6ugcztp71inb"
+            },
+            "format": "uuid",
+            "description": "The internal ID for the organization this notification was created for.",
+            "example": "99816916-8a13-4d28-b44b-83adf82b35e1"
+          },
           "status": {
             "type": "string",
             "x-stoplight": {
-              "id": "ov8h9ludfld5l"
+              "id": "5j8wcwk281s45"
             },
-            "example": "Non Conforming"
+            "example": "alert"
+          },
+          "statusName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "5j8wcwk281s45"
+            },
+            "example": "Open Timeout Alert"
           },
           "type": {
             "type": "string",
             "x-stoplight": {
-              "id": "gids61b1p38vs"
+              "id": "ogegvmqzi3qv6"
             },
             "description": "The type of notification this is.",
-            "example": "Orientation Status"
+            "example": "open_timeout"
           },
-          "typeLower": {
+          "typeName": {
             "type": "string",
             "x-stoplight": {
-              "id": "d24rvm6h9494t"
+              "id": "s9tuzjsg3lwcm"
             },
-            "description": "A formatted/normalized version of the `type` field.",
-            "example": "orientation status"
+            "description": "The user friendly notification type.",
+            "example": "Door Open Timeout Alert"
+          },
+          "level": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "s9tuzjsg3lwcm"
+            },
+            "description": "The severity level name",
+            "example": "error"
+          },
+          "levelName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "s9tuzjsg3lwcm"
+            },
+            "description": "The user-friendly severity level name",
+            "example": "Error"
+          },
+          "levelValue": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "s9tuzjsg3lwcm"
+            },
+            "description": "The numeric severity level.",
+            "example": 80
           },
           "createdAt": {
             "type": "string",
             "x-stoplight": {
-              "id": "7upvdnc07cqgf"
+              "id": "e3q4726vhbt8a"
             },
             "format": "date-time",
             "example": "2025-03-04 00:20:23.007+00"
+          },
+          "occurredAt": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "e3q4726vhbt8a"
+            },
+            "format": "date-time",
+            "example": "2025-03-04 00:20:23.007+00"
+          },
+          "door": {
+            "x-stoplight": {
+              "id": "xhwomimqm4sss"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Door",
+                "x-stoplight": {
+                  "id": "ruus40re1iylt"
+                }
+              },
+              {
+                "type": "object",
+                "x-stoplight": {
+                  "id": "zac0qotr173l2"
+                },
+                "properties": {
+                  "floor": {
+                    "x-stoplight": {
+                      "id": "wn0vlu4kiefsq"
+                    },
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Floor",
+                        "x-stoplight": {
+                          "id": "a7wl5tg3seoig"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "x-stoplight": {
+                          "id": "wqzn8ay8bk96p"
+                        },
+                        "properties": {
+                          "site": {
+                            "x-stoplight": {
+                              "id": "tsidcrvfvmj3f"
+                            },
+                            "allOf": [
+                              {
+                                "$ref": "#/components/schemas/Site",
+                                "x-stoplight": {
+                                  "id": "87zq3xpdamnqq"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
           }
         },
         "required": [
@@ -3308,8 +3796,13 @@
           "doorId",
           "status",
           "type",
-          "typeLower",
-          "createdAt"
+          "typeName",
+          "statusName",
+          "levelName",
+          "level",
+          "levelValue",
+          "createdAt",
+          "occurredAt"
         ]
       },
       "SensorEvent": {
@@ -3496,6 +3989,84 @@
         "required": [
           "count"
         ]
+      },
+           "EventTypeConfiguration": {
+        "title": "Event Type Configuration",
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "The internal short name of this event type.", "example": "Battery Level" },
+          "displayName": { "type": "string", "description": "The user-friendly display name of this event type.", "example": "Battery Level Status" },
+          "description": { "type": "string", "description": "A description of this event type - can be used in the UI.", "example": "Device battery status monitoring." },
+          "statuses": {
+            "type": "array",
+            "description": "An array of the available statuses for this event type.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "The internal short name.", "example": "good" },
+                "displayName": { "type": "string", "description": "The user-friendly display name.", "example": "Good Level" },
+                "severity": { "type": "string", "description": "The severity level of this status.", "example": "info" },
+                "severityNumeric": { "type": "integer", "description": "The numeric severity level of this status.", "example": 40 }
+              },
+              "required": [
+                "name",
+                "displayName",
+                "severity"
+              ]
+            }
+          },
+          "defaults": {
+            "type": "object",
+            "description": "If this setting has a default configuration, then this object will contain that data.",
+            "properties": {
+              "isEmailEnabled": {
+                "type": "boolean"
+              },
+              "isSMSEnabled": {
+                "type": "boolean"
+              },
+              "minSeverityLevel": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "displayName",
+          "description",
+          "statuses"
+        ]
+      },
+      "UserSubscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eventType": {
+            "type": "string",
+            "example": "battery_level"
+          },
+          "minSeverityLevel": {
+            "type": "number",
+            "example": 20
+          },
+          "isEmailEnabled": {
+            "type": "boolean",
+            "example": true
+          },
+          "isSMSEnabled": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": ["id", "eventType", "minSeverityLevel", "isEmailEnabled", "isSMSEnabled"]
       },
       "Tenant": {
         "title": "Tenant",
@@ -3808,6 +4379,136 @@
       }
     },
     "requestBodies": {
+          "UserUpdate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "roleId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "receiveEmailNotifications": {
+                  "type": "boolean"
+                },
+                "disabled": {
+                  "type": "boolean"
+                },
+                "digest": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "schedule": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": ["frequency", "hour", "minute"],
+                          "properties": {
+                            "frequency": {
+                              "type": "string",
+                              "enum": ["daily"]
+                            },
+                            "hour": {
+                              "type": "number"
+                            },
+                            "minute": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": ["frequency", "hour", "minute", "weekday"],
+                          "properties": {
+                            "frequency": {
+                              "type": "string",
+                              "enum": ["weekly"]
+                            },
+                            "weekday": {
+                              "type": "number",
+                              "description": "The numeric week day the report should run - e.g. `3` for Wednesday."
+                            },
+                            "hour": {
+                              "type": "number"
+                            },
+                            "minute": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": ["frequency", "hour", "minute", "day"],
+                          "properties": {
+                            "frequency": {
+                              "type": "string",
+                              "enum": ["daily"]
+                            },
+                            "day": {
+                              "type": "number",
+                              "description": "The numeric day of the month the report should run - e.g. `2` to run on the second day of the month."
+                            },
+                            "hour": {
+                              "type": "number"
+                            },
+                            "minute": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["enabled"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserSubscriptionUpdate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "eventType": {
+                    "type": "string",
+                    "example": "open_timeout"
+                  },
+                  "minSeverityLevel": {
+                    "type": "number",
+                    "example": 40
+                  },
+                  "isEmailEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "isSMSEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  }
+                },
+                "required": ["eventType"]
+              }
+            }
+          }
+        }
+      },
       "DownlinkTaskCreate": {
         "content": {
           "application/json": {
